@@ -1,0 +1,10 @@
+{
+  "build": {
+    "appId": "my-app",
+    "electronVersion": "latest",
+    "files": ["../client/angular/dist/**/*", "main.js", "package.json"],
+    "directories": {
+      "output": "../release"
+    }
+  }
+}

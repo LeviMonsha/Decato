@@ -1,0 +1,8 @@
+numpy
+psycopg2
+python-dotenv
+passlib
+pika
+fastapi 
+uvicorn[standard]
+pydantic

@@ -1,0 +1,109 @@
+services:
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "8081:80"
+    env_file:
+      - /.env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    env_file:
+      - /.env
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: decatopg
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../database/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - ../database/clickhouse/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ../database/clickhouse/users.xml:/etc/clickhouse-server/users.d/admin.xml
+    env_file:
+      - /.env
+    environment:
+      CLICKHOUSE_USER: ${CLICKHOUSE_DB_USER}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_DB_PASSWORD}
+      CLICKHOUSE_DB: ${CLICKHOUSE_DB_NAME}
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - /.env
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+
+  # bd_processor:
+  #   build: ./Dockerfile.scala
+
+  nn_service:
+    build:
+      context: ./backend/nn_service
+      dockerfile: Dockerfile
+    ports:
+      - "2525:25"
+    depends_on:
+      - rabbitmq
+      - clickhouse
+    env_file:
+      - /.env
+
+  server:
+    build:
+      context: ./backend/server/deca
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8080"
+    depends_on:
+      - clickhouse
+      - postgres
+    env_file:
+      - /.env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/decatopg
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+
+  client:
+    build:
+      context: ./frontend/client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+
+  # electron:
+  #   build: ./Dockerfile.electron
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - server
+  #   environment:
+  #     - NODE_ENV=development
+
+volumes:
+  clickhouse_data:
+  postgres_data:
+  pgadmin_data:

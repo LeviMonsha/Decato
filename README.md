@@ -1,2 +1,3 @@
 # Decato
-Messenger for communication
+
+Service for neural networks
