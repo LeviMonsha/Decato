@@ -1,51 +1,72 @@
-import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import axios from "axios";
-import "@radix-ui/themes/styles.css";
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 
-import AuthPage from "./features/auth/AuthPage";
-import HomePage from "./features/home/HomePage";
-import MainPage from "./features/content/MainPage";
+import { useAppDispatch, useAppSelector } from "./hooks/redux";
+import { setTheme } from "./store/slices/themeSlice";
+
+import { RootLayout } from "./features/layouts/RootLayout";
+import { AuthLayout } from "./features/layouts/AuthLayout";
+
+import HomePage from "./features/pages/home/HomePage";
+import { CoursesPage } from "./features/pages/course/CoursesPage";
+import { CourseDetailPage } from "./features/pages/course/CourseDetailPage";
+import { CompetitionsPage } from "./features/pages/competition/CompetitionsPage";
+import { CompetitionDetailPage } from "./features/pages/competition/CompetitionDetailPage";
+import { NewsPage } from "./features/pages/news/NewsPage";
+import { ProfilePage } from "./features/pages/extra/ProfilePage";
+import { LoginPage } from "./features/pages/auth/LoginPage";
+import { RegisterPage } from "./features/pages/auth/RegisterPage";
+import { NotFoundPage } from "./features/pages/extra/NotFoundPage";
 
 import "./styles/App.css";
 
-function PrivateRoute({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+function App() {
+  const dispatch = useAppDispatch();
+  const { theme } = useAppSelector((state) => state.theme);
+  const location = useLocation();
 
   useEffect(() => {
-    axios
-      .get("/api/session", { withCredentials: true })
-      .then((res) => setIsAuthenticated(res.data.authenticated))
-      .catch(() => setIsAuthenticated(false));
-  }, []);
-  if (isAuthenticated === null) return <div>Загрузка...</div>;
-  if (!isAuthenticated) return <Navigate to="/auth" replace />;
-  return children;
-}
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      dispatch(setTheme(savedTheme));
+    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      dispatch(setTheme("dark"));
+    }
+  }, [dispatch]);
 
-function App() {
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
-    <div>
-      <Router>
-        <Routes>
-          <Route exact path="/auth" element={<AuthPage />} />
-          <Route exact path="/" element={<HomePage />} />
-          <Route
-            path="/main"
-            element={
-              <PrivateRoute>
-                <MainPage />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </div>
+    <Routes>
+      <Route path="/" element={<RootLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="courses" element={<CoursesPage />} />
+        <Route path="courses/:courseId" element={<CourseDetailPage />} />
+        <Route path="competitions" element={<CompetitionsPage />} />
+        <Route
+          path="competitions/:competitionId"
+          element={<CompetitionDetailPage />}
+        />
+        <Route path="news" element={<NewsPage />} />
+        <Route path="profile" element={<ProfilePage />} />
+      </Route>
+
+      <Route element={<AuthLayout />}>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 

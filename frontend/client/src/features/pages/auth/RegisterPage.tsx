@@ -1,0 +1,295 @@
+import { useState } from "react";
+import * as Form from "@radix-ui/react-form";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Loader } from "lucide-react";
+
+export const RegisterPage = () => {
+  const [registerForm, setRegisterForm] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    isAdult: "",
+    gender: "",
+    isDarkTheme: false,
+  });
+
+  const [isAcceptRules, setAcceptRules] = useState(false);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target;
+
+    if (type === "checkbox") {
+      const checked = (e.target as HTMLInputElement).checked;
+      if (name === "isAcceptRules") {
+        setAcceptRules(checked);
+      } else {
+        setRegisterForm((prev) => ({
+          ...prev,
+          [name]: checked,
+        }));
+      }
+    } else {
+      setRegisterForm((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!isAcceptRules) {
+      setMessage("You must accept the rules!");
+      return;
+    }
+
+    if (registerForm.password !== registerForm.confirmPassword) {
+      setMessage("Passwords do not match!");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const userData = {
+        firstName: registerForm.firstName,
+        lastName: registerForm.lastName,
+        username: registerForm.username,
+        email: registerForm.email,
+        password: registerForm.password,
+        isAdult: registerForm.isAdult === "true",
+        gender: registerForm.gender,
+        isDarkTheme: registerForm.isDarkTheme,
+      };
+
+      await axios.post("/api/auth/register", userData, {
+        withCredentials: true,
+      });
+      navigate("/auth");
+    } catch (error: any) {
+      if (error.response) {
+        setMessage(error.response.data);
+      } else {
+        setMessage("Registration error");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Form.Root
+      className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md dark:bg-gray-800"
+      onSubmit={handleSubmit}
+    >
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-6">
+        Register an Account
+      </h2>
+
+      {message && (
+        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-md text-sm text-center">
+          {message}
+        </div>
+      )}
+
+      <Form.Field name="firstName" className="mb-4">
+        <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          First Name
+        </Form.Label>
+        <Form.Control asChild>
+          <input
+            type="text"
+            name="firstName"
+            placeholder="Ivan"
+            value={registerForm.firstName}
+            onChange={handleChange}
+            autoComplete="off"
+            required
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+          />
+        </Form.Control>
+      </Form.Field>
+
+      <Form.Field name="lastName" className="mb-4">
+        <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Last Name
+        </Form.Label>
+        <Form.Control asChild>
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Ivanov"
+            value={registerForm.lastName}
+            onChange={handleChange}
+            autoComplete="off"
+            required
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+          />
+        </Form.Control>
+      </Form.Field>
+
+      <Form.Field name="username" className="mb-4">
+        <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Username
+        </Form.Label>
+        <Form.Control asChild>
+          <input
+            type="text"
+            name="username"
+            placeholder="Ivan"
+            value={registerForm.username}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+          />
+        </Form.Control>
+      </Form.Field>
+
+      <Form.Field name="email" className="mb-4">
+        <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Email
+        </Form.Label>
+        <Form.Control asChild>
+          <input
+            type="email"
+            name="email"
+            placeholder="ivan@email.com"
+            value={registerForm.email}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+          />
+        </Form.Control>
+      </Form.Field>
+
+      <Form.Field name="password" className="mb-4">
+        <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Password
+        </Form.Label>
+        <Form.Control asChild>
+          <input
+            type="password"
+            name="password"
+            placeholder="Pass!word123"
+            value={registerForm.password}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+          />
+        </Form.Control>
+      </Form.Field>
+
+      <Form.Field name="confirmPassword" className="mb-4">
+        <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Confirm Password
+        </Form.Label>
+        <Form.Control asChild>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={registerForm.confirmPassword}
+            onChange={handleChange}
+            autoComplete="new-password"
+            required
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+          />
+        </Form.Control>
+      </Form.Field>
+
+      <Form.Field name="isAcceptRules" className="mb-4">
+        <Form.Label className="flex items-center text-gray-700 dark:text-gray-300">
+          <Form.Control asChild>
+            <input
+              type="checkbox"
+              name="isAcceptRules"
+              checked={isAcceptRules}
+              onChange={handleChange}
+              className="mr-2 h-4 w-4 text-primary-600 dark:text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
+            />
+          </Form.Control>
+          I accept the rules
+        </Form.Label>
+      </Form.Field>
+
+      <Form.Field name="isAdult" className="mb-4">
+        <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Are you 18 or older?
+        </Form.Label>
+        <Form.Control asChild>
+          <select
+            name="isAdult"
+            value={registerForm.isAdult}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
+          >
+            <option value="">Select</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </Form.Control>
+      </Form.Field>
+
+      <Form.Field name="gender" className="mb-6">
+        <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Gender
+        </Form.Label>
+        <div className="flex gap-6">
+          <label className="flex items-center">
+            <Form.Control asChild>
+              <input
+                type="radio"
+                name="gender"
+                value="Male"
+                checked={registerForm.gender === "Male"}
+                onChange={handleChange}
+                className="mr-2"
+                required
+              />
+            </Form.Control>
+            Male
+          </label>
+          <label className="flex items-center">
+            <Form.Control asChild>
+              <input
+                type="radio"
+                name="gender"
+                value="Female"
+                checked={registerForm.gender === "Female"}
+                onChange={handleChange}
+                className="mr-2"
+                required
+              />
+            </Form.Control>
+            Female
+          </label>
+        </div>
+      </Form.Field>
+
+      <Form.Submit asChild>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full flex justify-center py-2 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
+        >
+          {loading ? (
+            <>
+              <Loader className="animate-spin h-5 w-5 mr-2" /> Registering...
+            </>
+          ) : (
+            "Register"
+          )}
+        </button>
+      </Form.Submit>
+    </Form.Root>
+  );
+};
