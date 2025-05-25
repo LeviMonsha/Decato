@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -30,30 +31,31 @@ public class UserService {
     }
 
     public User createUser(SignupRequest userIn) {
-    if (userRepository.existsByUsername(userIn.getUsername())) {
-        throw new UserExistException("Username is already taken");
+        if (userRepository.existsByUsername(userIn.getUsername())) {
+            throw new UserExistException("Username is already taken");
+        }
+        if (userRepository.existsByEmail(userIn.getEmail())) {
+            throw new UserExistException("Email is already in use");
+        }
+
+        User user = new User();
+        user.setEmail(userIn.getEmail());
+        user.setFirstName(userIn.getFirstname());
+        user.setLastName(userIn.getLastname());
+        user.setUsername(userIn.getUsername());
+        user.setIsAdult(userIn.getIsAdult());
+        user.setGender(userIn.getGender());
+        user.setPassword(passwordEncoder.encode(userIn.getPassword()));
+        user.getRoles().add(ERole.ROLE_USER);
+
+        LOG.info("Saving User {}", userIn.getEmail());
+        return userRepository.save(user);
     }
-    if (userRepository.existsByEmail(userIn.getEmail())) {
-        throw new UserExistException("Email is already in use");
-    }
-
-    User user = new User();
-    user.setEmail(userIn.getEmail());
-    user.setFirstName(userIn.getFirstname());
-    user.setLastname(userIn.getLastname());
-    user.setUsername(userIn.getUsername());
-    user.setPassword(passwordEncoder.encode(userIn.getPassword()));
-    user.getRoles().add(ERole.ROLE_USER);
-
-    LOG.info("Saving User {}", userIn.getEmail());
-    return userRepository.save(user);
-}
-
 
     public User updateUser(UserDTO userDTO, Principal principal) {
         User user = getUserByPrincipal(principal);
         user.setFirstName(userDTO.getFirstname());
-        user.setLastname(userDTO.getLastname());
+        user.setLastName(userDTO.getLastname());
 
         return userRepository.save(user);
     }
@@ -69,7 +71,7 @@ public class UserService {
 
     }
 
-    public User getUserById(Long id) {
+    public User getUserById(UUID id) {
         return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

@@ -3,7 +3,7 @@ SET search_path TO decatopg;
 
 -- хранение информации о пользователе
 CREATE TABLE IF NOT EXISTS trainee (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -11,8 +11,15 @@ CREATE TABLE IF NOT EXISTS trainee (
     is_adult BOOLEAN NOT NULL,
     gender VARCHAR(10) NOT NULL,
     password_hash TEXT NOT NULL,
-    role VARCHAR(20) NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- хранение роли пользователя
+CREATE TABLE IF NOT EXISTS trainee_role (
+    trainee_id UUID NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    CONSTRAINT fk_trainee_role_trainee FOREIGN KEY (trainee_id) REFERENCES trainee(id) ON DELETE CASCADE,
+    CONSTRAINT pk_trainee_role PRIMARY KEY (trainee_id, role)
 );
 
 -- хранение информации о категории курса

@@ -23,42 +23,46 @@ import com.monsha.deca.service.CustomUserDetailsService;
 )
 public class SecurityConfig {
 
-    private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    // private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final CustomUserDetailsService customUserDetailsService;
-    private final JWTTokenProvider jwtTokenProvider;
+    // private final JWTTokenProvider jwtTokenProvider;
 
-    public SecurityConfig(JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                          CustomUserDetailsService customUserDetailsService,
-                          JWTTokenProvider jwtTokenProvider) {
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+    public SecurityConfig(
+    // JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                          CustomUserDetailsService customUserDetailsService//,
+                        //   JWTTokenProvider jwtTokenProvider
+                          ) {
+        // this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.customUserDetailsService = customUserDetailsService;
-        this.jwtTokenProvider = jwtTokenProvider;
+        // this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @Bean
-    public JWTAuthenticationFilter jwtAuthenticationFilter() {
-        return new JWTAuthenticationFilter(jwtTokenProvider, customUserDetailsService);
-    }
+    // @Bean
+    // public JWTAuthenticationFilter jwtAuthenticationFilter() {
+    //     return new JWTAuthenticationFilter(jwtTokenProvider, customUserDetailsService);
+    // }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors();
         http.csrf(csrf -> csrf.disable());
 
-        http.exceptionHandling(exception -> 
-            exception.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-        );
+        // http.exceptionHandling(exception -> 
+        //     exception.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+        // );
 
         http.sessionManagement(session -> 
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
+
+        http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(authz -> authz
             .requestMatchers(SecurityConstants.SIGN_UP_URLS).permitAll()
             .anyRequest().authenticated()
         );
 
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        // http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -4,7 +4,7 @@ import com.monsha.deca.payload.response.JWTTokenSuccessResponse;
 import com.monsha.deca.payload.response.MessageResponse;
 import com.monsha.deca.payload.request.LoginRequest;
 import com.monsha.deca.payload.request.SignupRequest;
-import com.monsha.deca.security.JWTTokenProvider;
+// import com.monsha.deca.security.JWTTokenProvider;
 import com.monsha.deca.security.SecurityConstants;
 import com.monsha.deca.service.UserService;
 import com.monsha.deca.validation.ResponseErrorValidation;
@@ -27,8 +27,8 @@ import jakarta.validation.Valid;
 @PreAuthorize("permitAll()")
 public class AuthController {
 
-    @Autowired
-    private JWTTokenProvider jwtTokenProvider;
+    // @Autowired
+    // private JWTTokenProvider jwtTokenProvider;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -47,11 +47,10 @@ public class AuthController {
         ));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
+        // String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
 
-        return ResponseEntity.ok(new JWTTokenSuccessResponse(true, jwt));
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));//(new JWTTokenSuccessResponse(true, jwt));
     }
-
 
     @PostMapping("/signup")
     public ResponseEntity<Object> registerUser(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult) {

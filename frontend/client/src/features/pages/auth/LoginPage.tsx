@@ -41,13 +41,13 @@ export const LoginPage = () => {
 
     try {
       setLoading(true);
-      await axios.post("/api/secure/captcha", { recaptchaToken: captchaValue });
-      const response = await axios.post("/api/auth/login", loginForm, {
+      // await axios.post("/api/secure/captcha", { recaptchaToken: captchaValue });
+      const response = await axios.post("/api/auth/signin", loginForm, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
       if (response.status === 200) {
-        navigate("/main");
+        navigate("/");
       } else {
         setMessage("Login error. Please try again.");
         recaptchaRef.current?.reset();

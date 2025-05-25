@@ -97,7 +97,7 @@ services:
       context: ./frontend/client
       dockerfile: Dockerfile
     ports:
-      - "${CLIENT_PORT}:80"
+      - "${CLIENT_PORT}:3000"
     depends_on:
       - server
     environment:

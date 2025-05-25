@@ -141,13 +141,13 @@ export function NavBar() {
                   to="/login"
                   className="px-4 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  Log in
+                  Войти
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 rounded-md text-sm font-medium bg-primary-600 text-white hover:bg-primary-700"
+                  className="px-4 py-2 rounded-md text-sm font-medium bg-primary-400 text-black hover:bg-primary-300"
                 >
-                  Sign up
+                  Зарегистрироваться
                 </Link>
               </div>
             )}

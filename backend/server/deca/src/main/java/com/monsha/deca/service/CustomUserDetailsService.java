@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,10 +33,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         return build(user);
     }
 
-    public User loadUserById(Long id) {
-        return userRepository.findUserById(id).orElse(null);
+    public User loadUserById(UUID userId) {
+        return userRepository.findUserById(userId).orElse(null);
     }
-
 
     public static User build(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()

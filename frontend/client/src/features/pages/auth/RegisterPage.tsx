@@ -6,8 +6,8 @@ import { Loader } from "lucide-react";
 
 export const RegisterPage = () => {
   const [registerForm, setRegisterForm] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     username: "",
     email: "",
     password: "",
@@ -60,26 +60,31 @@ export const RegisterPage = () => {
     setLoading(true);
     try {
       const userData = {
-        firstName: registerForm.firstName,
-        lastName: registerForm.lastName,
+        firstname: registerForm.firstname,
+        lastname: registerForm.lastname,
         username: registerForm.username,
         email: registerForm.email,
         password: registerForm.password,
+        confirmPassword: registerForm.confirmPassword,
         isAdult: registerForm.isAdult === "true",
         gender: registerForm.gender,
       };
 
-      await axios.post("/api/auth/register", userData, {
+      await axios.post("/api/auth/signup", userData, {
         withCredentials: true,
       });
       navigate("/login");
     } catch (error: any) {
       if (error.response) {
-        setMessage(error.response.data);
+        const data = error.response.data;
+        if (typeof data === "object" && data !== null) {
+          setMessage(Object.values(data).filter(Boolean).join(" "));
+        } else {
+          setMessage(String(data));
+        }
       } else {
         setMessage("Registration error");
       }
-    } finally {
       setLoading(false);
     }
   };
@@ -106,9 +111,9 @@ export const RegisterPage = () => {
         <Form.Control asChild>
           <input
             type="text"
-            name="firstName"
+            name="firstname"
             placeholder="Ivan"
-            value={registerForm.firstName}
+            value={registerForm.firstname}
             onChange={handleChange}
             autoComplete="off"
             required
@@ -124,9 +129,9 @@ export const RegisterPage = () => {
         <Form.Control asChild>
           <input
             type="text"
-            name="lastName"
+            name="lastname"
             placeholder="Ivanov"
-            value={registerForm.lastName}
+            value={registerForm.lastname}
             onChange={handleChange}
             autoComplete="off"
             required
