@@ -14,7 +14,6 @@ export const RegisterPage = () => {
     confirmPassword: "",
     isAdult: "",
     gender: "",
-    isDarkTheme: false,
   });
 
   const [isAcceptRules, setAcceptRules] = useState(false);
@@ -68,13 +67,12 @@ export const RegisterPage = () => {
         password: registerForm.password,
         isAdult: registerForm.isAdult === "true",
         gender: registerForm.gender,
-        isDarkTheme: registerForm.isDarkTheme,
       };
 
       await axios.post("/api/auth/register", userData, {
         withCredentials: true,
       });
-      navigate("/auth");
+      navigate("/login");
     } catch (error: any) {
       if (error.response) {
         setMessage(error.response.data);

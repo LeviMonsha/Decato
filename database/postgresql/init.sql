@@ -1,16 +1,22 @@
-CREATE DATABASE IF NOT EXISTS decatopg;
+CREATE SCHEMA IF NOT EXISTS decatopg;
+SET search_path TO decatopg;
 
 -- хранение информации о пользователе
-CREATE TABLE user (
+CREATE TABLE IF NOT EXISTS trainee (
     id UUID PRIMARY KEY,
-    email CITEXT UNIQUE NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    is_adult BOOLEAN NOT NULL,
+    gender VARCHAR(10) NOT NULL,
     password_hash TEXT NOT NULL,
     role VARCHAR(20) NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- хранение информации о категории курса
-CREATE TABLE course_category (
+CREATE TABLE IF NOT EXISTS course_category (
     id UUID PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -18,7 +24,7 @@ CREATE TABLE course_category (
 );
 
 -- хранение информации о курсе
-CREATE TABLE course (
+CREATE TABLE IF NOT EXISTS course (
     id UUID PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
@@ -28,7 +34,7 @@ CREATE TABLE course (
 );
 
 -- хранение информации о главе курса
-CREATE TABLE chapter (
+CREATE TABLE IF NOT EXISTS chapter (
     id UUID PRIMARY KEY,
     course_id UUID NOT NULL REFERENCES course(id) ON DELETE CASCADE,
     title VARCHAR(255) NOT NULL,
@@ -40,7 +46,7 @@ CREATE TABLE chapter (
 CREATE TYPE task_type AS ENUM ('theory', 'practice', 'quiz');
 
 -- хранение информации о задании
-CREATE TABLE task (
+CREATE TABLE IF NOT EXISTS task (
     id UUID PRIMARY KEY,
     chapter_id UUID NOT NULL REFERENCES chapter(id) ON DELETE CASCADE,
     type task_type NOT NULL,
@@ -49,7 +55,7 @@ CREATE TABLE task (
 );
 
 -- хранение информации о варианте ответа для задания
-CREATE TABLE task_option (
+CREATE TABLE IF NOT EXISTS task_option (
     id UUID PRIMARY KEY,
     task_id UUID NOT NULL REFERENCES task(id) ON DELETE CASCADE,
     option_text TEXT NOT NULL,
@@ -57,19 +63,19 @@ CREATE TABLE task_option (
 );
 
 -- хранение информации о прогрессе пользователя
-CREATE TABLE user_progress (
+CREATE TABLE IF NOT EXISTS trainee_progress (
     id UUID PRIMARY KEY,
-    user_id UUID NOT NULL REFERENCES user(id),
+    trainee_id UUID NOT NULL REFERENCES trainee(id),
     task_id UUID NOT NULL REFERENCES task(id),
     status VARCHAR(20) CHECK (status IN ('not_started', 'in_progress', 'completed')),
     completed_at TIMESTAMPTZ
 );
 
 -- хранение информации о комментарии курса
-CREATE TABLE course_comment (
+CREATE TABLE IF NOT EXISTS course_comment (
     id UUID PRIMARY KEY,
     course_id UUID NOT NULL REFERENCES course(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES user(id),
+    trainee_id UUID NOT NULL REFERENCES trainee(id),
     parent_comment_id UUID REFERENCES course_comment(id),
     content TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -77,30 +83,30 @@ CREATE TABLE course_comment (
 );
 
 -- хранение информации о решенной задаче
-CREATE TABLE submission (
+CREATE TABLE IF NOT EXISTS submission (
     id UUID PRIMARY KEY,
     task_id UUID NOT NULL REFERENCES task(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES user(id),
+    trainee_id UUID NOT NULL REFERENCES trainee(id),
     code TEXT NOT NULL,
     submitted_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- хранение информации о достижении
-CREATE TABLE achievement (
+CREATE TABLE IF NOT EXISTS achievement (
     id UUID PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT
 );
 
 -- хранение информации о достижении пользователя
-CREATE TABLE user_achievement (
-    user_id UUID REFERENCES user(id),
+CREATE TABLE IF NOT EXISTS trainee_achievement (
+    trainee_id UUID REFERENCES trainee(id),
     achievement_id UUID REFERENCES achievement(id),
     achieved_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- хранение информации о новости
-CREATE TABLE news (
+CREATE TABLE IF NOT EXISTS news (
     id UUID PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
@@ -109,7 +115,7 @@ CREATE TABLE news (
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- хранение информации о соревновании
-CREATE TABLE competition (
+CREATE TABLE IF NOT EXISTS competition (
     id UUID PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     dataset_url TEXT NOT NULL,
@@ -118,10 +124,10 @@ CREATE TABLE competition (
 );
 
 -- хранение информации о рейтинге соревнования
-CREATE TABLE competition_rating (
+CREATE TABLE IF NOT EXISTS competition_rating (
     id UUID PRIMARY KEY,
     competition_id UUID NOT NULL REFERENCES competition(id),
-    user_id UUID NOT NULL REFERENCES user(id),
+    trainee_id UUID NOT NULL REFERENCES trainee(id),
     rating SMALLINT,
     rank SMALLINT
 );
@@ -138,14 +144,14 @@ ALTER TABLE submission ADD CONSTRAINT fk_task
   FOREIGN KEY (task_id) REFERENCES task(id) ON DELETE CASCADE;
 
 -- Индексы для быстрого доступа
-CREATE UNIQUE INDEX idx_user_progress ON user_progress(user_id, task_id);
-CREATE UNIQUE INDEX idx_competition_rating ON competition_rating(competition_id, user_id);
-CREATE INDEX idx_comments_course ON course_comments(course_id);
-CREATE INDEX idx_comments_user ON course_comments(user_id);
-CREATE INDEX idx_user_email ON user(email);
+CREATE UNIQUE INDEX idx_trainee_progress ON trainee_progress(trainee_id, task_id);
+CREATE UNIQUE INDEX idx_competition_rating ON competition_rating(competition_id, trainee_id);
+CREATE INDEX idx_comments_course ON course_comment(course_id);
+CREATE INDEX idx_comments_trainee ON course_comment(trainee_id);
+CREATE INDEX idx_trainee_email ON trainee(email);
 CREATE INDEX idx_course_category ON course(category_id);
 CREATE INDEX idx_chapter_course ON chapter(course_id);
 CREATE INDEX idx_task_chapter ON task(chapter_id);
 CREATE INDEX idx_task_option_task ON task_option(task_id);
-CREATE INDEX idx_user_progress_user ON user_progress(user_id);
-CREATE INDEX idx_user_progress_task ON user_progress(task_id);
+CREATE INDEX idx_trainee_progress_trainee ON trainee_progress(trainee_id);
+CREATE INDEX idx_trainee_progress_task ON trainee_progress(task_id);
