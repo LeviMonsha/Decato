@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import * as Form from "@radix-ui/react-form";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -72,12 +72,12 @@ export const LoginPage = () => {
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-6">
-        Log in to your account
+        Войти в аккаунт
       </h2>
 
       <Form.Field name="email" className="mb-4">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Email
+          Электронная почта
         </Form.Label>
         <Form.Control asChild>
           <input
@@ -94,13 +94,13 @@ export const LoginPage = () => {
 
       <Form.Field name="password" className="mb-4">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Password
+          Пароль
         </Form.Label>
         <Form.Control asChild>
           <input
             type="password"
             name="password"
-            placeholder="Your password"
+            placeholder="Pass!word123"
             value={loginForm.password}
             onChange={handleChange}
             required
@@ -111,7 +111,9 @@ export const LoginPage = () => {
 
       <div className="mb-4 flex justify-center">
         <ReCAPTCHA
-          sitekey={process.env.REACT_APP_CAPTCHA_API_KEY || ""}
+          sitekey={
+            process.env.REACT_APP_CAPTCHA_API_KEY || "REACT_APP_CAPTCHA_API_KEY"
+          }
           onChange={handleCaptchaChange}
           ref={recaptchaRef}
         />
@@ -123,9 +125,21 @@ export const LoginPage = () => {
           disabled={!captchaValue || loading}
           className="w-full flex justify-center py-2 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
         >
-          {loading ? "Logging in..." : "Log In"}
+          {loading ? "Подождите..." : "Войти"}
         </button>
       </Form.Submit>
+
+      <div className="mt-6 text-center">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Нет аккаунта?{" "}
+          <Link
+            to="/register"
+            className="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300"
+          >
+            Зарегистрироваться
+          </Link>
+        </p>
+      </div>
 
       {message && (
         <div className="mt-4 text-center text-red-600 dark:text-red-400">

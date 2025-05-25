@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as Form from "@radix-ui/react-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Loader } from "lucide-react";
 
@@ -92,7 +92,7 @@ export const RegisterPage = () => {
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-6">
-        Register an Account
+        Регистрация
       </h2>
 
       {message && (
@@ -103,7 +103,7 @@ export const RegisterPage = () => {
 
       <Form.Field name="firstName" className="mb-4">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          First Name
+          Имя
         </Form.Label>
         <Form.Control asChild>
           <input
@@ -121,7 +121,7 @@ export const RegisterPage = () => {
 
       <Form.Field name="lastName" className="mb-4">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Last Name
+          Фамилия
         </Form.Label>
         <Form.Control asChild>
           <input
@@ -139,7 +139,7 @@ export const RegisterPage = () => {
 
       <Form.Field name="username" className="mb-4">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Username
+          Имя пользователя
         </Form.Label>
         <Form.Control asChild>
           <input
@@ -156,7 +156,7 @@ export const RegisterPage = () => {
 
       <Form.Field name="email" className="mb-4">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Email
+          Электронная почта
         </Form.Label>
         <Form.Control asChild>
           <input
@@ -173,7 +173,7 @@ export const RegisterPage = () => {
 
       <Form.Field name="password" className="mb-4">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Password
+          Пароль
         </Form.Label>
         <Form.Control asChild>
           <input
@@ -190,7 +190,7 @@ export const RegisterPage = () => {
 
       <Form.Field name="confirmPassword" className="mb-4">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Confirm Password
+          Подтверждение пароля
         </Form.Label>
         <Form.Control asChild>
           <input
@@ -216,13 +216,21 @@ export const RegisterPage = () => {
               className="mr-2 h-4 w-4 text-primary-600 dark:text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
             />
           </Form.Control>
-          I accept the rules
+          Я принимаю&nbsp;
+          <a
+            href="/rules"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300 underline transition-colors"
+          >
+            правила
+          </a>
         </Form.Label>
       </Form.Field>
 
       <Form.Field name="isAdult" className="mb-4">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Are you 18 or older?
+          Вам есть 18 лет?
         </Form.Label>
         <Form.Control asChild>
           <select
@@ -232,18 +240,18 @@ export const RegisterPage = () => {
             required
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
           >
-            <option value="">Select</option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
+            <option value="">Выбери</option>
+            <option value="true">Да</option>
+            <option value="false">Нет</option>
           </select>
         </Form.Control>
       </Form.Field>
 
       <Form.Field name="gender" className="mb-6">
         <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Gender
+          Пол
         </Form.Label>
-        <div className="flex gap-6">
+        <div className="flex gap-6 text-gray-700 dark:text-gray-300">
           <label className="flex items-center">
             <Form.Control asChild>
               <input
@@ -256,7 +264,7 @@ export const RegisterPage = () => {
                 required
               />
             </Form.Control>
-            Male
+            Мужчина
           </label>
           <label className="flex items-center">
             <Form.Control asChild>
@@ -270,7 +278,7 @@ export const RegisterPage = () => {
                 required
               />
             </Form.Control>
-            Female
+            Женщина
           </label>
         </div>
       </Form.Field>
@@ -283,13 +291,24 @@ export const RegisterPage = () => {
         >
           {loading ? (
             <>
-              <Loader className="animate-spin h-5 w-5 mr-2" /> Registering...
+              <Loader className="animate-spin h-5 w-5 mr-2" /> Подождите...
             </>
           ) : (
-            "Register"
+            "Зарегистрироваться"
           )}
         </button>
       </Form.Submit>
+      <div className="mt-6 text-center">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Уже есть аккаунт?{" "}
+          <Link
+            to="/login"
+            className="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300"
+          >
+            Войти
+          </Link>
+        </p>
+      </div>
     </Form.Root>
   );
 };

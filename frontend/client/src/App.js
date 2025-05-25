@@ -17,6 +17,7 @@ import { ProfilePage } from "./features/pages/extra/ProfilePage";
 import { LoginPage } from "./features/pages/auth/LoginPage";
 import { RegisterPage } from "./features/pages/auth/RegisterPage";
 import { NotFoundPage } from "./features/pages/extra/NotFoundPage";
+import { RulesPage } from "./features/pages/auth/RulesPage";
 
 import "./styles/App.css";
 
@@ -64,6 +65,7 @@ function App() {
       <Route element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="rules" element={<RulesPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
