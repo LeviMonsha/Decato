@@ -24,3 +24,42 @@ INSERT INTO task (id, chapter_id, type, content, sort_order) VALUES
 ('ccccccc2-cccc-cccc-cccc-ccccccccccc2', 'bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbb1', 'practice', '{"text": "Implement linear regression."}', 2),
 ('ccccccc3-cccc-cccc-cccc-ccccccccccc3', 'bbbbbbb3-bbbb-bbbb-bbbb-bbbbbbbbbbb3', 'theory', '{"text": "How to create line plots with Matplotlib."}', 1),
 ('ccccccc4-cccc-cccc-cccc-ccccccccccc4', 'bbbbbbb4-bbbb-bbbb-bbbb-bbbbbbbbbbb4', 'quiz', '{"text": "Probability quiz: What is P(A or B)?"}', 1);
+
+---
+
+INSERT INTO competition (id, title, description, image_url, start_date, end_date, difficulty_level, is_active) VALUES
+('a3f1c9d2-8b4e-4f5a-b8e7-2e5d8c9f1a2b', 
+ 'Titanic: Machine Learning from Disaster', 
+ 'Predict survival on the Titanic and get familiar with ML basics.', 
+ 'https://example.com/images/titanic.png', 
+ '2025-06-01T00:00:00+00', 
+ '2025-07-01T23:59:59+00', 
+ 3, 
+ TRUE),
+
+('b7d2e3f4-9c6f-4e7a-8d3f-4c6b5a7e9f1d', 
+ 'House Prices: Advanced Regression Techniques', 
+ 'Predict sales prices and practice advanced regression models.', 
+ 'https://example.com/images/house_prices.png', 
+ '2025-07-15T00:00:00+00', 
+ '2025-08-15T23:59:59+00', 
+ 6, 
+ TRUE),
+
+('c5e4f6a7-1b2c-4d3e-9f8a-5b6c7d8e9f0a', 
+ 'Digit Recognizer', 
+ 'Identify digits from handwritten images using computer vision.', 
+ 'https://example.com/images/digit_recognizer.png', 
+ '2025-08-01T00:00:00+00', 
+ '2025-09-01T23:59:59+00', 
+ 5, 
+ TRUE),
+
+('d9f8e7c6-b5a4-3d2c-1e0f-9a8b7c6d5e4f', 
+ 'New York City Taxi Trip Duration', 
+ 'Predict the duration of taxi trips in NYC using time series and geospatial data.', 
+ 'https://example.com/images/nyc_taxi.png', 
+ '2025-09-10T00:00:00+00', 
+ '2025-10-10T23:59:59+00', 
+ 7, 
+ FALSE);

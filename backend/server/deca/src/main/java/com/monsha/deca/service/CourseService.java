@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.monsha.deca.dto.CompetitionDTO;
 import com.monsha.deca.dto.CourseDTO;
+import com.monsha.deca.entity.Competition;
 import com.monsha.deca.entity.Course;
 import com.monsha.deca.repository.CourseRepository;
 
@@ -19,11 +21,16 @@ public class CourseService {
 
     public List<CourseDTO> getAllCourses() {
         return courseRepository.findAll().stream()
-        .map(course -> new CourseDTO(
+            .map(this::mapToDTO)
+            .collect(Collectors.toList());
+    }
+
+    private CourseDTO mapToDTO(Course course) {
+        return new CourseDTO(
             course.getId(),
             course.getTitle(),
             course.getDescription(),
-            course.getDifficultyLevel()))
-        .collect(Collectors.toList());
+            course.getDifficultyLevel()
+        );
     }
 }

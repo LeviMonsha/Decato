@@ -28,7 +28,7 @@ export const CourseCardComponent = ({ course }: CourseCardProps) => {
 
   return (
     <Link
-      to={`/courses/${title}`}
+      to={`/courses/${id}`}
       className="group flex flex-col overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-gray-800 h-full"
       aria-label={`Course: ${title}, Level: ${levelLabel}`}
     >

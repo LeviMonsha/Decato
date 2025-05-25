@@ -70,6 +70,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authz -> authz
             .requestMatchers(SecurityConstants.SIGN_UP_URLS).permitAll()
             .requestMatchers("/api/courses").permitAll()
+            .requestMatchers("/api/competitions").permitAll()
             .anyRequest().authenticated()
         );
 

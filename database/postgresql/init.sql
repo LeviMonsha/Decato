@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS course (
     id UUID PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    difficulty_level SMALLINT CHECK (difficulty_level BETWEEN 1 AND 5),
+    difficulty_level SMALLINT CHECK (difficulty_level BETWEEN 1 AND 10),
     category_id UUID NOT NULL REFERENCES course_category(id),
     sort_order SMALLINT
 );
@@ -125,10 +125,14 @@ CREATE TABLE IF NOT EXISTS news (
 CREATE TABLE IF NOT EXISTS competition (
     id UUID PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    dataset_url TEXT NOT NULL,
+    description TEXT NOT NULL,
+    image_url TEXT NOT NULL,
     start_date TIMESTAMPTZ NOT NULL,
-    end_date TIMESTAMPTZ NOT NULL
+    end_date TIMESTAMPTZ NOT NULL,
+    difficulty_level SMALLINT CHECK (difficulty_level BETWEEN 1 AND 10),
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
+
 
 -- хранение информации о рейтинге соревнования
 CREATE TABLE IF NOT EXISTS competition_rating (
