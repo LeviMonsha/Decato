@@ -24,6 +24,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/postgresql/schemas/schema.sql:/docker-entrypoint-initdb.d/schema.sql
 
   clickhouse:
     container_name: clickhouse

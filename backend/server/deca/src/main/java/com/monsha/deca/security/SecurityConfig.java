@@ -1,5 +1,7 @@
 package com.monsha.deca.security;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,7 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import com.monsha.deca.service.CustomUserDetailsService;
 
@@ -44,7 +46,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors();
+        http.cors(cors -> cors.configurationSource(request -> {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedOrigins(List.of("http://localhost:3000"));
+            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+            config.setAllowedHeaders(List.of("*"));
+            config.setAllowCredentials(true);
+            return config;
+        }));
+
         http.csrf(csrf -> csrf.disable());
 
         // http.exceptionHandling(exception -> 
@@ -59,6 +69,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(authz -> authz
             .requestMatchers(SecurityConstants.SIGN_UP_URLS).permitAll()
+            .requestMatchers("/api/courses").permitAll()
             .anyRequest().authenticated()
         );
 

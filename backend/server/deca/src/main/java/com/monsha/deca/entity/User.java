@@ -29,7 +29,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "trainee")
+@Table(name = "trainee", schema = "decatopg")
 public class User implements UserDetails {
 
     @Id

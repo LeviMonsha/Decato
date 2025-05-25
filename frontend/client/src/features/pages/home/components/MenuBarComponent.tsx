@@ -1,17 +1,7 @@
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { EnterIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Link } from "react-router-dom";
-
-type User = {
-  username?: string;
-  avatar?: string;
-};
-
-interface MenuBarProps {
-  isAuthenticated: boolean;
-  user?: User | null;
-  onLogout: () => void;
-}
+import { MenuBarProps } from "../../../interfaces/menubar";
 
 function NavigationMenuLink(props: React.ComponentProps<typeof Link>) {
   return (
