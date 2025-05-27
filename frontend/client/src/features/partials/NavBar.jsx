@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../hooks/redux";
-import { logout } from "../../store/slices/authSlice";
-import { toggleTheme } from "../../store/slices/themeSlice";
 import {
   BrainCircuit,
   Menu,
@@ -16,6 +13,11 @@ import {
   User,
   LogOut,
 } from "lucide-react";
+
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import { logout } from "../../store/slices/authSlice";
+import { toggleTheme } from "../../store/slices/themeSlice";
+import { AsciiCat } from "../partials/AsciiCat";
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,9 +47,10 @@ export function NavBar() {
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <BrainCircuit className="h-8 w-8 text-primary-600 dark:text-primary-400 mr-2" />
-              <span className="font-bold text-xl text-gray-900 dark:text-white">
+              <span className="font-bold text-xl text-gray-900 dark:text-white mr-2">
                 Decato
               </span>
+              <AsciiCat />
             </Link>
           </div>
 
@@ -58,8 +61,8 @@ export function NavBar() {
                   to="/"
                   className={`px-3 py-2 rounded-md text-sm font-medium ${
                     location.pathname === "/"
-                      ? "bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      ? "bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 focus:ring-offset-2 transition"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-offset-2 transition"
                   }`}
                 >
                   Главная
@@ -68,8 +71,8 @@ export function NavBar() {
                   to="/courses"
                   className={`px-3 py-2 rounded-md text-sm font-medium ${
                     location.pathname.startsWith("/courses")
-                      ? "bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      ? "bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 focus:ring-offset-2 transition"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-offset-2 transition"
                   }`}
                 >
                   Курсы
@@ -78,8 +81,8 @@ export function NavBar() {
                   to="/competitions"
                   className={`px-3 py-2 rounded-md text-sm font-medium ${
                     location.pathname.startsWith("/competitions")
-                      ? "bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      ? "bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 focus:ring-offset-2 transition"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-offset-2 transition"
                   }`}
                 >
                   Соревнования
@@ -88,8 +91,8 @@ export function NavBar() {
                   to="/news"
                   className={`px-3 py-2 rounded-md text-sm font-medium ${
                     location.pathname === "/news"
-                      ? "bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      ? "bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 focus:ring-offset-2 transition"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-offset-2 transition"
                   }`}
                 >
                   Новости
@@ -101,7 +104,7 @@ export function NavBar() {
           <div className="hidden md:flex md:items-center md:space-x-4">
             <button
               onClick={handleThemeToggle}
-              className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-offset-2 transition"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (
@@ -115,7 +118,7 @@ export function NavBar() {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/profile"
-                  className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-offset-2 transition"
                 >
                   <img
                     src={
@@ -129,7 +132,7 @@ export function NavBar() {
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-offset-2 transition"
                   aria-label="Logout"
                 >
                   <LogOut className="h-5 w-5" />
@@ -139,13 +142,13 @@ export function NavBar() {
               <div className="flex items-center space-x-2">
                 <Link
                   to="/login"
-                  className="px-4 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="px-4 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-offset-2 transition"
                 >
                   Войти
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 rounded-md text-sm font-medium bg-primary-400 text-black hover:bg-primary-300"
+                  className="px-4 py-2 rounded-md text-sm font-medium bg-primary-400 text-black hover:bg-primary-300 focus:ring-offset-2 transition"
                 >
                   Зарегистрироваться
                 </Link>

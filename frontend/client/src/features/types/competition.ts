@@ -2,9 +2,9 @@ export type Competition = {
   id: string;
   title: string;
   description: string;
-  imageUrl: string;
-  startDate: string;
-  endDate: string;
+  imageUrl?: string;
+  startDate?: string;
+  endDate?: string;
   difficultyLevel: number;
   isActive: boolean;
 };

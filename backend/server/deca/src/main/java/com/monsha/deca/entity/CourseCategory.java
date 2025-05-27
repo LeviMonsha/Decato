@@ -20,6 +20,7 @@ import lombok.Data;
 @Data
 @Table(name = "course_category", schema = "decatopg")
 public class CourseCategory {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -40,4 +41,5 @@ public class CourseCategory {
 
     @OneToMany(mappedBy = "category")
     private Set<Course> courses;
+    
 }

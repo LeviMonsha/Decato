@@ -16,6 +16,7 @@ import lombok.Data;
 @Data
 @Table(name = "task_option", schema = "decatopg")
 public class TaskOption {
+
     @Id
     @GeneratedValue
     private UUID id;
@@ -29,4 +30,5 @@ public class TaskOption {
 
     @Column(name = "is_correct", nullable = false)
     private Boolean isCorrect;
+    
 }

@@ -55,8 +55,8 @@ export const CompetitionCardComponent = ({
         {imageUrl ? (
           <img
             src={imageUrl}
-            alt={`Image for ${title}`}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            alt={title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
           <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">

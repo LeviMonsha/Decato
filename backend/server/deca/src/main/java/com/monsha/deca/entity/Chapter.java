@@ -21,6 +21,7 @@ import lombok.Data;
 @Data
 @Table(name = "chapter", schema = "decatopg")
 public class Chapter {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -41,4 +42,5 @@ public class Chapter {
 
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL)
     private Set<Task> tasks;
+    
 }

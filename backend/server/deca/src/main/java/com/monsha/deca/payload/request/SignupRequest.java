@@ -39,4 +39,5 @@ public class SignupRequest {
 
     @NotBlank(message = "Please select your gender")
     private String gender;
+    
 }

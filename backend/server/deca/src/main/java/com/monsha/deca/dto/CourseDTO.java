@@ -8,9 +8,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CourseDTO {
 
     @NotNull(message = "Id cannot be null")
@@ -26,4 +28,8 @@ public class CourseDTO {
     @Min(value = 1, message = "Difficulty level must be at least 1")
     @Max(value = 10, message = "Difficulty level must be at most 10")
     private Short difficultyLevel;
+
+    private UUID categoryId;
+    
 }
+

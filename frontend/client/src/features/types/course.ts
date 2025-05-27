@@ -6,6 +6,8 @@ export type Course = {
   categoryId: string;
   sortOrder?: number;
   imageUrl?: string;
+  started?: boolean;
+  studentsCount?: number;
 };
 
 export type CourseCardProps = {

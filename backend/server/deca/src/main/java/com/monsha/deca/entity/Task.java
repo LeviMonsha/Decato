@@ -25,6 +25,7 @@ import lombok.Data;
 @Data
 @Table(name = "task", schema = "decatopg")
 public class Task {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -39,11 +40,12 @@ public class Task {
     private TaskType type;
 
     @Column(nullable = false, columnDefinition = "jsonb")
-    private String content; // Store JSON as String or create a converter
+    private String content;
 
     @Column(name = "sort_order", nullable = false)
     private Short sortOrder;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private Set<TaskOption> options;
+    
 }

@@ -71,7 +71,7 @@ public class SecurityConfig {
             .requestMatchers(SecurityConstants.SIGN_UP_URLS).permitAll()
             .requestMatchers("/api/courses").permitAll()
             .requestMatchers("/api/competitions").permitAll()
-            .anyRequest().authenticated()
+            .anyRequest().permitAll() // Исправить на .authenticated()
         );
 
         // http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

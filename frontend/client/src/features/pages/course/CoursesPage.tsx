@@ -16,7 +16,7 @@ export const CoursesPage = () => {
         const response = await axios.get<Course[]>("/api/courses");
         setCourses(response.data);
       } catch (err) {
-        setError("Failed to load courses.");
+        setError("Ошибка при загрузке курсов.");
         console.error(err);
       } finally {
         setLoading(false);
