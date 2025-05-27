@@ -10,6 +10,7 @@ import { AuthLayout } from "./features/layouts/AuthLayout";
 import HomePage from "./features/pages/home/HomePage";
 import { CoursesPage } from "./features/pages/course/CoursesPage";
 import { CourseDetailPage } from "./features/pages/course/CourseDetailPage";
+import { CourseTasksPage } from "./features/pages/course/CourseTasksPage";
 import { CompetitionsPage } from "./features/pages/competition/CompetitionsPage";
 import { CompetitionDetailPage } from "./features/pages/competition/CompetitionDetailPage";
 import { NewsPage } from "./features/pages/news/NewsPage";
@@ -53,6 +54,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="courses" element={<CoursesPage />} />
         <Route path="courses/:courseId" element={<CourseDetailPage />} />
+        <Route path="/courses/:courseId/tasks" element={<CourseTasksPage />} />
         <Route path="competitions" element={<CompetitionsPage />} />
         <Route
           path="competitions/:competitionId"

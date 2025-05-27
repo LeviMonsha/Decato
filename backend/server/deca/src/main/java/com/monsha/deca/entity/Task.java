@@ -1,6 +1,6 @@
 package com.monsha.deca.entity;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -46,6 +46,6 @@ public class Task {
     private Short sortOrder;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
-    private Set<TaskOption> options;
+    private List<TaskOption> options;
     
 }

@@ -1,6 +1,6 @@
 package com.monsha.deca.entity;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -37,9 +37,9 @@ public class CourseCategory {
     private CourseCategory parentCategory;
 
     @OneToMany(mappedBy = "parentCategory")
-    private Set<CourseCategory> subCategories;
+    private List<CourseCategory> subCategories;
 
     @OneToMany(mappedBy = "category")
-    private Set<Course> courses;
+    private List<Course> courses;
     
 }

@@ -1,6 +1,6 @@
 package com.monsha.deca.entity;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -44,6 +44,6 @@ public class Course {
     private Short sortOrder;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private Set<Chapter> chapters;
+    private List<Chapter> chapters;
     
 }

@@ -20,10 +20,10 @@ INSERT INTO chapter (id, course_id, title, sort_order, description) VALUES
 ('bbbbbbb4-bbbb-bbbb-bbbb-bbbbbbbbbbb4', 'aaaaaaa3-aaaa-aaaa-aaaa-aaaaaaaaaaa3', 'Probability Theory', 1, 'Fundamentals of probability and random variables.');
 
 INSERT INTO task (id, chapter_id, type, content, sort_order) VALUES
-('ccccccc1-cccc-cccc-cccc-ccccccccccc1', 'bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbb1', 'theory', '{"text": "What is supervised learning?"}', 1),
-('ccccccc2-cccc-cccc-cccc-ccccccccccc2', 'bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbb1', 'practice', '{"text": "Implement linear regression."}', 2),
-('ccccccc3-cccc-cccc-cccc-ccccccccccc3', 'bbbbbbb3-bbbb-bbbb-bbbb-bbbbbbbbbbb3', 'theory', '{"text": "How to create line plots with Matplotlib."}', 1),
-('ccccccc4-cccc-cccc-cccc-ccccccccccc4', 'bbbbbbb4-bbbb-bbbb-bbbb-bbbbbbbbbbb4', 'quiz', '{"text": "Probability quiz: What is P(A or B)?"}', 1);
+('ccccccc1-cccc-cccc-cccc-ccccccccccc1', 'bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbb1', 'THEORY', '{"text": "What is supervised learning?"}', 1),
+('ccccccc2-cccc-cccc-cccc-ccccccccccc2', 'bbbbbbb1-bbbb-bbbb-bbbb-bbbbbbbbbbb1', 'PRACTICE', '{"text": "Implement linear regression."}', 2),
+('ccccccc3-cccc-cccc-cccc-ccccccccccc3', 'bbbbbbb3-bbbb-bbbb-bbbb-bbbbbbbbbbb3', 'THEORY', '{"text": "How to create line plots with Matplotlib."}', 1),
+('ccccccc4-cccc-cccc-cccc-ccccccccccc4', 'bbbbbbb4-bbbb-bbbb-bbbb-bbbbbbbbbbb4', 'QUIZ', '{"text": "Probability quiz: What is P(A or B)?"}', 1);
 
 ---
 

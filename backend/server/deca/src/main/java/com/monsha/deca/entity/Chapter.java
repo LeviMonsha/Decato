@@ -1,6 +1,6 @@
 package com.monsha.deca.entity;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -41,6 +41,6 @@ public class Chapter {
     private String description;
 
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL)
-    private Set<Task> tasks;
+    private List<Task> tasks;
     
 }

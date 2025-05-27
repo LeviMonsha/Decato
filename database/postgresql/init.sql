@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS chapter (
 );
 
 -- хранение информации о типе задания
-CREATE TYPE task_type AS ENUM ('theory', 'practice', 'quiz');
+CREATE TYPE task_type AS ENUM ('THEORY', 'PRACTICE', 'QUIZ');
 
 -- хранение информации о задании
 CREATE TABLE IF NOT EXISTS task (

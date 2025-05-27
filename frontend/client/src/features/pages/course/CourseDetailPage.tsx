@@ -39,6 +39,13 @@ export const CourseDetailPage = () => {
     navigate(`/courses/${courseId}/tasks`);
   };
 
+  const difficultyLevelToLabel = (level: number): string => {
+    if (level <= 2) return "beginner";
+    if (level === 3) return "intermediate";
+    if (level >= 4) return "advanced";
+    return "unknown";
+  };
+
   const getLevelColor = (level: string) => {
     switch (level) {
       case "beginner":
@@ -61,7 +68,11 @@ export const CourseDetailPage = () => {
         >
           <ArrowLeft className="h-6 w-6" />
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <h1
+          className={`text-3xl font-bold text-gray-900 dark:text-white ${getLevelColor(
+            difficultyLevelToLabel(course.difficultyLevel)
+          )}`}
+        >
           {course.title}
         </h1>
       </div>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.monsha.deca.dto.CourseDTO;
 import com.monsha.deca.dto.CourseDetailDTO;
+import com.monsha.deca.dto.TaskSummaryDTO;
 import com.monsha.deca.service.CourseService;
 
 @RestController
@@ -37,5 +38,15 @@ public class CourseController {
         }
         return ResponseEntity.ok(courseDetail);
     }
+
+    @GetMapping("/{courseId}/tasks")
+    public ResponseEntity<List<TaskSummaryDTO>> getCourseTasks(@PathVariable UUID courseId) {
+        List<TaskSummaryDTO> tasks = courseService.getTasksByCourseId(courseId);
+        if (tasks == null || tasks.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(tasks);
+    }
+
 }
 
