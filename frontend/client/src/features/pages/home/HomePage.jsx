@@ -55,7 +55,7 @@ export default function HomePage() {
           </div>
 
           <div className="transition-shadow transition-transform duration-300 rounded-lg hover:shadow-lg hover:-translate-y-1 hover:bg-blue-50">
-            <Link to="/profile">
+            <Link to="/news">
               <FeatureCardComponent
                 icon={Newspaper}
                 title="Будьте в курсе"

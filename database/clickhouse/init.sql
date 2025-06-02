@@ -18,7 +18,7 @@ CREATE TABLE course_metrics (
     course_id UUID,
     metric_name VARCHAR(50),
     metric_value FLOAT,
-    updated_at TIMESTAMPTZ DEFAULT NOW()
+    updated_at TIMESTAMPT DEFAULT NOW()
 ) ENGINE = MergeTree()
 ORDER BY (course_id, metric_name);
 
@@ -28,6 +28,6 @@ CREATE TABLE user_preference (
     user_id UUID,
     preference_name VARCHAR(50),
     preference_value VARCHAR(100),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
+    updated_at TIMESTAMPT DEFAULT NOW()
 ) ENGINE = MergeTree()
 ORDER BY (user_id, preference_name);

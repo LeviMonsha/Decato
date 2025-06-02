@@ -117,8 +117,12 @@ CREATE TABLE IF NOT EXISTS news (
     id UUID PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
+    link TEXT NOT NULL,
+    category VARCHAR(50) NOT NULL DEFAULT 'Статья',
     published_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+ALTER TABLE decatopg.news ADD CONSTRAINT unique_link UNIQUE (link);
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- хранение информации о соревновании

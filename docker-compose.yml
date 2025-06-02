@@ -57,13 +57,31 @@ services:
   nn_service:
     container_name: nn_service
     build:
-      context: ./backend/nn_service
+      context: ./backend/services/nn
       dockerfile: Dockerfile
     ports:
       - "${NN_SERVICE_PORT}:25"
     depends_on:
       - rabbitmq
       - clickhouse
+
+  news_service:
+    container_name: news_service
+    build:
+      context: ./backend/services/news
+      dockerfile: Dockerfile
+    ports:
+      - "${NEWS_SERVICE_PORT}:26"
+    depends_on:
+      - rabbitmq
+      - clickhouse
+      - postgres
+    environment:
+      POSTGRES_DB_USER: ${POSTGRES_DB_USER}
+      POSTGRES_DB_PASSWORD: ${POSTGRES_DB_PASSWORD}
+      POSTGRES_DB_HOST: ${POSTGRES_DB_HOST}
+      POSTGRES_DB_PORT: ${POSTGRES_DB_PORT}
+      POSTGRES_DB_NAME: ${POSTGRES_DB_NAME}
 
   server:
     container_name: server

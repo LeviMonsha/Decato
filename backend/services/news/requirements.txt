@@ -1,0 +1,11 @@
+numpy
+psycopg2-binary
+python-dotenv
+passlib
+fastapi 
+uvicorn[standard]
+pydantic
+
+httpx
+requests
+beautifulsoup4
