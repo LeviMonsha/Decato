@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
 type User = {
   id: string;
@@ -23,62 +24,49 @@ const initialState: AuthState = {
   error: null,
 };
 
-export const login = createAsyncThunk(
-  "auth/login",
-  async (
-    { email, password }: { email: string; password: string },
-    { rejectWithValue }
-  ) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-
-      if (email !== "demo@example.com" || password !== "password") {
-        throw new Error("Invalid credentials");
-      }
-
-      const user = {
-        id: "1",
-        username: "demo_user",
-        email: "demo@example.com",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=demo",
-      };
-
-      const token = "mock_jwt_token";
-      localStorage.setItem("token", token);
-
-      return { user, token };
-    } catch (error) {
-      return rejectWithValue((error as Error).message);
+export const login = createAsyncThunk<
+  { user: User; token: string },
+  { email: string; password: string },
+  { rejectValue: string }
+>("auth/login", async ({ email, password }, { rejectWithValue }) => {
+  try {
+    const response = await axios.post("/api/auth/signin", { email, password });
+    const { token, user } = response.data;
+    localStorage.setItem("token", token);
+    return { user, token };
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      return rejectWithValue(
+        error.response.data.message || "Ошибка при логине"
+      );
     }
+    return rejectWithValue(error.message);
   }
-);
+});
 
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<
+  { user: User; token: string },
+  { username: string; email: string; password: string },
+  { rejectValue: string }
+>(
   "auth/register",
-  async (
-    {
-      username,
-      email,
-      password,
-    }: { username: string; email: string; password: string },
-    { rejectWithValue }
-  ) => {
+  async ({ username, email, password }, { rejectWithValue }) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-
-      const user = {
-        id: "1",
+      const response = await axios.post("/api/auth/signup", {
         username,
         email,
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`,
-      };
-
-      const token = "mock_jwt_token";
+        password,
+      });
+      const { token, user } = response.data;
       localStorage.setItem("token", token);
-
       return { user, token };
-    } catch (error) {
-      return rejectWithValue((error as Error).message);
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(
+          error.response.data.message || "Ошибка при регистрации"
+        );
+      }
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -112,7 +100,7 @@ const authSlice = createSlice({
     );
     builder.addCase(login.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload as string;
+      state.error = action.payload ?? "Ошибка при логине";
     });
 
     builder.addCase(register.pending, (state) => {
@@ -130,7 +118,7 @@ const authSlice = createSlice({
     );
     builder.addCase(register.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.payload as string;
+      state.error = action.payload ?? "Ошибка при регистрации";
     });
 
     builder.addCase(logout.fulfilled, (state) => {

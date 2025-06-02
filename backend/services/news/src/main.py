@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .config import origins
+from src.config import origins
 from src.utils.parser import fetch_all_news
 from src.storage import add_news_items
 from src.routes import news

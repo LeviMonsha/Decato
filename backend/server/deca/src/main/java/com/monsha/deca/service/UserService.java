@@ -9,7 +9,6 @@ import com.monsha.deca.repository.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -38,6 +36,8 @@ public class UserService {
             throw new UserExistException("Email is already in use");
         }
 
+        String avatarUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=" + userIn.getUsername();
+
         User user = new User();
         user.setEmail(userIn.getEmail());
         user.setFirstName(userIn.getFirstname());
@@ -46,6 +46,7 @@ public class UserService {
         user.setIsAdult(userIn.getIsAdult());
         user.setGender(userIn.getGender());
         user.setPassword(passwordEncoder.encode(userIn.getPassword()));
+        user.setAvatar(avatarUrl);
         user.getRoles().add(ERole.ROLE_USER);
 
         LOG.info("Saving User {}", userIn.getEmail());

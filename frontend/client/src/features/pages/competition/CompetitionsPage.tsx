@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
+import apiClient from "../../../hooks/apiClient";
 import { CompetitionCardComponent } from "./components/CompetitionCardComponent";
 import { Competition } from "../../types/competition";
 
@@ -14,7 +13,7 @@ export const CompetitionsPage = () => {
     const fetchCourses = async () => {
       try {
         setLoading(true);
-        const response = await axios.get<Competition[]>("/api/competitions");
+        const response = await apiClient.get<Competition[]>("/competitions");
         setCompetitions(response.data);
       } catch (err) {
         setError("Ошибка при загрузке соревнований.");

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 import com.monsha.deca.service.CustomUserDetailsService;
@@ -25,24 +26,24 @@ import com.monsha.deca.service.CustomUserDetailsService;
 )
 public class SecurityConfig {
 
-    // private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final CustomUserDetailsService customUserDetailsService;
-    // private final JWTTokenProvider jwtTokenProvider;
+    private final JWTTokenProvider jwtTokenProvider;
 
     public SecurityConfig(
-    // JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                          CustomUserDetailsService customUserDetailsService//,
-                        //   JWTTokenProvider jwtTokenProvider
+    JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                          CustomUserDetailsService customUserDetailsService,
+                          JWTTokenProvider jwtTokenProvider
                           ) {
-        // this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.customUserDetailsService = customUserDetailsService;
-        // this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    // @Bean
-    // public JWTAuthenticationFilter jwtAuthenticationFilter() {
-    //     return new JWTAuthenticationFilter(jwtTokenProvider, customUserDetailsService);
-    // }
+    @Bean
+    public JWTAuthenticationFilter jwtAuthenticationFilter() {
+        return new JWTAuthenticationFilter(jwtTokenProvider, customUserDetailsService);
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -57,9 +58,9 @@ public class SecurityConfig {
 
         http.csrf(csrf -> csrf.disable());
 
-        // http.exceptionHandling(exception -> 
-        //     exception.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-        // );
+        http.exceptionHandling(exception -> 
+            exception.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+        );
 
         http.sessionManagement(session -> 
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -69,12 +70,12 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(authz -> authz
             .requestMatchers(SecurityConstants.SIGN_UP_URLS).permitAll()
-            .requestMatchers("/api/courses").permitAll()
-            .requestMatchers("/api/competitions").permitAll()
-            .anyRequest().permitAll() // Исправить на .authenticated()
+            .requestMatchers("/api/courses/**").permitAll()
+            .requestMatchers("/api/competitions/**").permitAll()
+            .anyRequest().authenticated()
         );
 
-        // http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

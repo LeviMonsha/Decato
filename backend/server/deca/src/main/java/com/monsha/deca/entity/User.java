@@ -59,6 +59,9 @@ public class User implements UserDetails {
     @Column(name = "password_hash", nullable = false)
     private String password;
 
+    @Column(name = "avatar_url")
+    private String avatar;
+
     @ElementCollection(targetClass = ERole.class)
     @CollectionTable(name = "trainee_role", joinColumns = @JoinColumn(name = "trainee_id"))
     @Column(name = "role")
@@ -103,10 +106,6 @@ public class User implements UserDetails {
         }
         return auths;
     }
-
-    /**
-     * SECURITY
-     */
 
     @Override
     public String getPassword() {

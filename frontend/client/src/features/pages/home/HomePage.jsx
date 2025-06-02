@@ -89,6 +89,37 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl w-full">
+        <div className="transition-shadow transition-transform duration-300 rounded-lg hover:shadow-lg hover:-translate-y-1 hover:bg-blue-50">
+          <Link to="/courses">
+            <FeatureCardComponent
+              icon={BookOpen}
+              title="Интерактивные курсы"
+              description="Учитесь в удобном темпе с нашими увлекательными практическими курсами, разработанными экспертами."
+            />
+          </Link>
+        </div>
+
+        <div className="transition-shadow transition-transform duration-300 rounded-lg hover:shadow-lg hover:-translate-y-1 hover:bg-blue-50">
+          <Link to="/competitions">
+            <FeatureCardComponent
+              icon={Trophy}
+              title="Реальные соревнования"
+              description="Применяйте свои навыки в конкурсах с реальными наборами данных и выигрывайте призы."
+            />
+          </Link>
+        </div>
+
+        <div className="transition-shadow transition-transform duration-300 rounded-lg hover:shadow-lg hover:-translate-y-1 hover:bg-blue-50">
+          <Link to="/news">
+            <FeatureCardComponent
+              icon={Newspaper}
+              title="Будьте в курсе"
+              description="Следите за быстрыми изменениями в сфере ИИ с помощью наших тщательно подобранных новостей и обновлений."
+            />
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

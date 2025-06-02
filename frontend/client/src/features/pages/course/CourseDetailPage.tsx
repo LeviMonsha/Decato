@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ArrowLeft, Award, BookOpen, Clock, Users } from "lucide-react";
 
+import apiClient from "../../../hooks/apiClient";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { Course } from "../../types/course";
 
@@ -15,15 +15,12 @@ export const CourseDetailPage = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await axios.get<Course>(`/api/courses/${courseId}`);
+        setLoading(true);
+        const response = await apiClient.get<Course>(`/courses/${courseId}`);
         setCourse(response.data);
-      } catch (error: any) {
-        if (error.response && error.response.status === 404) {
-          setCourse(null);
-        } else {
-          console.error("Ошибка при загрузке курса:", error);
-          setCourse(null);
-        }
+      } catch (error) {
+        console.error("Ошибка при загрузке курса:", error);
+        setCourse(null);
       } finally {
         setLoading(false);
       }

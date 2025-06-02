@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import * as Form from "@radix-ui/react-form";
-import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
+
+import { login } from "../../../store/slices/authSlice";
+import { useAppDispatch } from "../../../hooks/redux";
 
 export const LoginPage = () => {
   const [loginForm, setLoginForm] = useState({
@@ -14,6 +16,7 @@ export const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,17 +45,25 @@ export const LoginPage = () => {
     try {
       setLoading(true);
       // await axios.post("/api/secure/captcha", { recaptchaToken: captchaValue });
-      const response = await axios.post("/api/auth/signin", loginForm, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
-      if (response.status === 200) {
-        navigate("/");
-      } else {
-        setMessage("Login error. Please try again.");
-        recaptchaRef.current?.reset();
-        setCaptchaValue(null);
-      }
+      // const response = await axios.post("/api/auth/signin", loginForm, {
+      //   headers: { "Content-Type": "application/json" },
+      //   withCredentials: true,
+      // });
+      // console.log(response.data);
+      // if (response.status === 200) {
+      //   const token = response.data.token;
+      //   console.log(token);
+      //   localStorage.setItem("token", token);
+      //   navigate("/");
+      // } else {
+      //   setMessage("Login error. Please try again.");
+      //   recaptchaRef.current?.reset();
+      //   setCaptchaValue(null);
+      // }
+      await dispatch(
+        login({ email: loginForm.email, password: loginForm.password })
+      ).unwrap();
+      navigate("/");
     } catch (error: any) {
       setMessage(
         error.response?.data?.message ||

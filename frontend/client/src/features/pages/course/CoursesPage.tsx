@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 
+import apiClient from "../../../hooks/apiClient";
 import { CourseCardComponent } from "./components/CourseCardComponent";
 import { Course } from "../../types/course";
 
@@ -13,7 +13,7 @@ export const CoursesPage = () => {
     const fetchCourses = async () => {
       try {
         setLoading(true);
-        const response = await axios.get<Course[]>("/api/courses");
+        const response = await apiClient.get<Course[]>("/courses");
         setCourses(response.data);
       } catch (err) {
         setError("Ошибка при загрузке курсов.");

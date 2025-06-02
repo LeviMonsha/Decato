@@ -31,13 +31,15 @@ public class CourseController {
     }
 
     @GetMapping("/{courseId}")
-    public ResponseEntity<CourseDetailDTO> getCourseDetail(@PathVariable UUID courseId) {
-        CourseDetailDTO courseDetail = courseService.getCourseDetail(courseId);
-        if (courseDetail == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(courseDetail);
+public ResponseEntity<CourseDetailDTO> getCourseDetail(@PathVariable UUID courseId,
+    @AuthenticationPrincipal org.springframework.security.core.userdetails.User currentUser) {
+    CourseDetailDTO courseDetail = courseService.getCourseDetail(courseId);
+    if (courseDetail == null) {
+        return ResponseEntity.notFound().build();
     }
+    return ResponseEntity.ok(courseDetail);
+}
+
 
     @GetMapping("/{courseId}/tasks")
     public ResponseEntity<List<TaskSummaryDTO>> getCourseTasks(@PathVariable UUID courseId) {

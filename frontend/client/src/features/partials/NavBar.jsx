@@ -123,9 +123,11 @@ export function NavBar() {
                   <img
                     src={
                       user?.avatar ||
-                      "https://api.dicebear.com/7.x/avataaars/svg?seed=default"
+                      `https://api.dicebear.com/7.x/avataaars/svg?seed=${
+                        user?.username || "default"
+                      }`
                     }
-                    alt={user?.username || "User"}
+                    alt={user?.username || "Guest"}
                     className="h-8 w-8 rounded-full"
                   />
                   <span>{user?.username || "User"}</span>

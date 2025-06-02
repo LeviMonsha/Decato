@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS trainee (
     is_adult BOOLEAN NOT NULL,
     gender VARCHAR(10) NOT NULL,
     password_hash TEXT NOT NULL,
+    avatar_url TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS chapter (
 );
 
 -- хранение информации о типе задания
-CREATE TYPE task_type AS ENUM ('THEORY', 'PRACTICE', 'QUIZ');
+CREATE TYPE task_type AS ENUM ('THEORY', 'CODER', 'PRACTICE', 'QUIZ', 'GRAPH', 'ML');
 
 -- хранение информации о задании
 CREATE TABLE IF NOT EXISTS task (
