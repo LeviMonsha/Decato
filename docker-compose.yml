@@ -51,9 +51,6 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
 
-  # bd_processor:
-  #   build: ./Dockerfile.scala
-
   nn_service:
     container_name: nn_service
     build:
@@ -121,15 +118,6 @@ services:
       - server
     environment:
       REACT_APP_CAPTCHA_API_KEY: ${CAPTCHA_API_KEY}
-
-  # electron:
-  #   build: ./Dockerfile.electron
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - server
-  #   environment:
-  #     - NODE_ENV=development
 
 volumes:
   clickhouse_data:

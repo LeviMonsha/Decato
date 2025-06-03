@@ -43,7 +43,7 @@ INSERT INTO task (id, chapter_id, type, content, sort_order) VALUES
   'THEORY',
   '{
     "text": "Основы обратного распространения ошибки в нейронных сетях.",
-    "image_url": "https://example.com/images/backpropagation.png"
+    "image_url": "images/backpropagation.png"
   }'::jsonb,
   2
 );
@@ -67,7 +67,7 @@ INSERT INTO task (id, chapter_id, type, content, sort_order) VALUES
   'GRAPH',
   '{
     "text": "Проанализируйте график функции активации.",
-    "graph_url": "https://example.com/images/relu_graph.png",
+    "graph_url": "images/relu_graph.png",
     "questions": [
       "Какое значение функции при x = -1?",
       "Какое значение функции при x = 2?"
@@ -83,7 +83,7 @@ INSERT INTO task (id, chapter_id, type, content, sort_order) VALUES
   'ML',
   '{
     "text": "Обучите простую нейронную сеть на предоставленном датасете и загрузите файл с предсказаниями.",
-    "dataset_url": "https://example.com/datasets/neural_network_training.csv",
+    "dataset_url": "datasets/neural_network_training.csv",
     "submission_format": "CSV с колонкой ''prediction''"
   }'::jsonb,
   2
@@ -97,37 +97,46 @@ INSERT INTO task_option (id, task_id, option_text, is_correct) VALUES
 
 INSERT INTO competition (id, title, description, image_url, start_date, end_date, difficulty_level, is_active) VALUES
 ('a3f1c9d2-8b4e-4f5a-b8e7-2e5d8c9f1a2b', 
- 'Titanic: Machine Learning from Disaster', 
- 'Predict survival on the Titanic and get familiar with ML basics.', 
- 'https://example.com/images/titanic.png', 
+ 'Титаник: Машинное обучение на основе катастрофы', 
+ 'Предсказать выживание на Титанике и познакомиться с основами машинного обучения.', 
+ '', 
  '2025-06-01T00:00:00+00', 
  '2025-07-01T23:59:59+00', 
  3, 
  TRUE),
 
 ('b7d2e3f4-9c6f-4e7a-8d3f-4c6b5a7e9f1d', 
- 'House Prices: Advanced Regression Techniques', 
- 'Predict sales prices and practice advanced regression models.', 
- 'https://example.com/images/house_prices.png', 
+ 'Цены на дома: Продвинутые методы регрессии', 
+ 'Предсказать цены продаж и попрактиковаться в продвинутых моделях регрессии.', 
+ '', 
  '2025-07-15T00:00:00+00', 
  '2025-08-15T23:59:59+00', 
  6, 
  TRUE),
 
 ('c5e4f6a7-1b2c-4d3e-9f8a-5b6c7d8e9f0a', 
- 'Digit Recognizer', 
- 'Identify digits from handwritten images using computer vision.', 
- 'https://example.com/images/digit_recognizer.png', 
+ 'Распознавание цифр', 
+ 'Определить цифры на рукописных изображениях с помощью компьютерного зрения.', 
+ '', 
  '2025-08-01T00:00:00+00', 
  '2025-09-01T23:59:59+00', 
  5, 
  TRUE),
 
 ('d9f8e7c6-b5a4-3d2c-1e0f-9a8b7c6d5e4f', 
- 'New York City Taxi Trip Duration', 
- 'Predict the duration of taxi trips in NYC using time series and geospatial data.', 
- 'https://example.com/images/nyc_taxi.png', 
+ 'Длительность поездок на такси в Нью-Йорке', 
+ 'Предсказать длительность поездок на такси в Нью-Йорке, используя временные ряды и геопространственные данные.', 
+ '', 
  '2025-09-10T00:00:00+00', 
  '2025-10-10T23:59:59+00', 
  7, 
  FALSE);
+
+ ('d92f8e7c6-b5a4-3d2c-1e0f-9a8b7c6d5e4f', 
+ 'Тестовое соревнование', 
+ 'Для новичков', 
+ '', 
+ '2023-02-10T00:00:00+00', 
+ '2028-10-10T23:59:59+00', 
+ 1, 
+ TRUE);
