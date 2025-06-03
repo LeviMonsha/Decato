@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS news (
     published_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-ALTER TABLE decatopg.news ADD CONSTRAINT unique_link UNIQUE (link);
+ALTER TABLE decatopg.news ADD CONSTRAINT unique_link UNIQUE (published_at);
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- хранение информации о соревновании

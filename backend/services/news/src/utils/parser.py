@@ -1,11 +1,10 @@
 from typing import List
 
 from src.models.news import NewsItem
-from src.utils.parsers import sf, np
+from src.utils.parsers import sf
 
 PARSERS = [
-    sf.SkillFactoryParser(),
-    np.NuancesProgParser()
+    sf.SkillFactoryParser()
 ]
 
 async def fetch_all_news() -> List[NewsItem]:

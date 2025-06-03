@@ -44,22 +44,6 @@ export const LoginPage = () => {
 
     try {
       setLoading(true);
-      // await axios.post("/api/secure/captcha", { recaptchaToken: captchaValue });
-      // const response = await axios.post("/api/auth/signin", loginForm, {
-      //   headers: { "Content-Type": "application/json" },
-      //   withCredentials: true,
-      // });
-      // console.log(response.data);
-      // if (response.status === 200) {
-      //   const token = response.data.token;
-      //   console.log(token);
-      //   localStorage.setItem("token", token);
-      //   navigate("/");
-      // } else {
-      //   setMessage("Login error. Please try again.");
-      //   recaptchaRef.current?.reset();
-      //   setCaptchaValue(null);
-      // }
       await dispatch(
         login({ email: loginForm.email, password: loginForm.password })
       ).unwrap();

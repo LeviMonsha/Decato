@@ -14,15 +14,12 @@ async def add_news_items(items: List[NewsItem]):
                 cur.execute("""
                     INSERT INTO decatopg.news (id, title, content, link, published_at)
                     VALUES (%s, %s, %s, %s, %s)
-                    ON CONFLICT (link) DO UPDATE SET
+                    ON CONFLICT (published_at) DO UPDATE SET
                         title = EXCLUDED.title,
                         content = EXCLUDED.content,
                         published_at = EXCLUDED.published_at;
                 """, (str(news_id), item.title, item.content, str(item.link), item.published_at))
     conn.close()
-
-from typing import List, Optional
-from src.models.news import NewsItem
 
 async def get_news_items(limit: int = 10, offset: int = 0) -> List[NewsItem]:
     conn = get_connection()

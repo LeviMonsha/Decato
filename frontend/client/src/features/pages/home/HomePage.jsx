@@ -70,25 +70,24 @@ export default function HomePage() {
 
   return (
     <div className="space-y-12">
-      <section className="rounded-xl bg-gradient-to-r from-primary-600 to-accent-500 text-white p-6 sm:p-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+      <section className="bg-yellow-500 p-6 rounded-xl text-gray-900">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold">С возвращением!</h1>
-            <p className="mt-2 text-primary-100">
-              У вас серия из {0} дней обучения. Так держать!
+            <h1 className="text-2xl font-bold">С возвращением!</h1>
+            <p className="mt-2 text-yellow-900">
+              У вас серия из {0} дней обучения.
             </p>
           </div>
-          <div className="mt-4 md:mt-0">
-            <Link
-              to="/courses"
-              className="inline-flex items-center px-4 py-2 rounded-md bg-white text-primary-700 hover:bg-primary-50 font-medium transition-colors"
-            >
-              Продолжить обучение
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </div>
+          <Link
+            to="/courses"
+            className="mt-4 md:mt-0 inline-flex items-center bg-white text-yellow-700 px-4 py-2 rounded-md font-medium hover:bg-yellow-100 transition-colors"
+          >
+            Продолжить обучение
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
         </div>
       </section>
+
       <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl w-full">
         <div className="transition-shadow transition-transform duration-300 rounded-lg hover:shadow-lg hover:-translate-y-1 hover:bg-blue-50">
           <Link to="/courses">

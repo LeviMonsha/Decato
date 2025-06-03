@@ -17,7 +17,6 @@ import {
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import { logout } from "../../store/slices/authSlice";
 import { toggleTheme } from "../../store/slices/themeSlice";
-import { AsciiCat } from "../partials/AsciiCat";
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +49,6 @@ export function NavBar() {
               <span className="font-bold text-xl text-gray-900 dark:text-white mr-2">
                 Decato
               </span>
-              <AsciiCat />
             </Link>
           </div>
 
