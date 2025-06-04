@@ -3,6 +3,7 @@ import * as Form from "@radix-ui/react-form";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Loader } from "lucide-react";
+import apiClient from "../../../hooks/apiClient";
 
 export const RegisterPage = () => {
   const [registerForm, setRegisterForm] = useState({
@@ -70,7 +71,7 @@ export const RegisterPage = () => {
         gender: registerForm.gender,
       };
 
-      await axios.post("/api/auth/signup", userData, {
+      await apiClient.post("/auth/signup", userData, {
         withCredentials: true,
       });
       navigate("/login");

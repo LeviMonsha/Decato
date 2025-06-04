@@ -78,6 +78,7 @@ public class JWTTokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
         
-        return claims.get("id", UUID.class);
+        String idString = claims.get("id", String.class);
+        return UUID.fromString(idString);
     }
 }
