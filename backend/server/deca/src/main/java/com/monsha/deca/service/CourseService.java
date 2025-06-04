@@ -88,6 +88,7 @@ public class CourseService {
         dto.setTitle(course.getTitle());
         dto.setDescription(course.getDescription());
         dto.setDifficultyLevel(course.getDifficultyLevel());
+        dto.setImgUrl(course.getImgUrl());
         dto.setChapters(chapterDTOs);
 
         return dto;
@@ -123,7 +124,8 @@ public class CourseService {
             course.getTitle(),
             course.getDescription(),
             course.getDifficultyLevel(),
-            course.getCategory() != null ? course.getCategory().getId() : null
+            course.getCategory() != null ? course.getCategory().getId() : null,
+            course.getImgUrl()
         );
     }
 

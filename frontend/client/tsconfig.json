@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "esModuleInterop": true
   }
 }

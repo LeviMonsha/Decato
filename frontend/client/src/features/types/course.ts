@@ -5,7 +5,7 @@ export type Course = {
   difficultyLevel: number;
   categoryId: string;
   sortOrder?: number;
-  imageUrl?: string;
+  imgUrl?: string;
   started?: boolean;
   studentsCount?: number;
 };

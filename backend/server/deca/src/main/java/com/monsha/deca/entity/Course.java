@@ -40,6 +40,9 @@ public class Course {
     @JoinColumn(name = "category_id", nullable = false)
     private CourseCategory category;
 
+    @Column(name = "img_url", length = 255)
+    private String imgUrl;
+
     @Column(name = "sort_order")
     private Short sortOrder;
 

@@ -23,7 +23,7 @@ const getLevelColor = (level: string) => {
 };
 
 export const CourseCardComponent = ({ course }: CourseCardProps) => {
-  const { id, title, description, imageUrl, difficultyLevel } = course;
+  const { id, title, description, imgUrl, difficultyLevel } = course;
   const levelLabel = difficultyLevelToLabel(difficultyLevel);
 
   return (
@@ -33,9 +33,9 @@ export const CourseCardComponent = ({ course }: CourseCardProps) => {
       aria-label={`Course: ${title}, Level: ${levelLabel}`}
     >
       <div className="relative h-48 overflow-hidden">
-        {imageUrl ? (
+        {imgUrl ? (
           <img
-            src={imageUrl}
+            src={imgUrl}
             alt={title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />

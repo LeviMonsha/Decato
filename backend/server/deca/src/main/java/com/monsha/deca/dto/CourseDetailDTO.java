@@ -19,10 +19,10 @@ public class CourseDetailDTO extends CourseDTO {
 
     private Map<UUID, List<TaskSummaryDTO>> tasksByChapter;
 
-    public CourseDetailDTO(UUID id, String title, String description, Short difficultyLevel, UUID categoryId,
+    public CourseDetailDTO(UUID id, String title, String description, Short difficultyLevel, UUID categoryId, String imgUrl,
                            List<ChapterDTO> chapters,
                            Map<UUID, List<TaskSummaryDTO>> tasksByChapter) {
-        super(id, title, description, difficultyLevel, categoryId);
+        super(id, title, description, difficultyLevel, categoryId, imgUrl);
         this.chapters = chapters;
         this.tasksByChapter = tasksByChapter;
     }

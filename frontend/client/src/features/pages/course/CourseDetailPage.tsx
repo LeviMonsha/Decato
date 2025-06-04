@@ -75,11 +75,17 @@ export const CourseDetailPage = () => {
       </div>
 
       <div className="relative h-64 rounded-xl overflow-hidden">
-        <img
-          src={course.imageUrl}
-          alt={course.title}
-          className="w-full h-full object-cover"
-        />
+        {course.imgUrl ? (
+          <img
+            src={course.imgUrl}
+            alt={course.title}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
+            Нет изображения
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

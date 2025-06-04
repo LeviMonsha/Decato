@@ -51,6 +51,32 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
 
+  nextcloud_db:
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin_root
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: admin
+    volumes:
+      - nextcloud-db-data:/var/lib/mysql
+
+  nextcloud_app:
+    image: nextcloud
+    depends_on:
+      - nextcloud_db
+    ports:
+      - "8085:80"
+    restart: always
+    volumes:
+      - nextcloud-data:/var/www/html
+    environment:
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: admin
+      MYSQL_HOST: nextcloud_db
+
   nn_service:
     container_name: nn_service
     build:
@@ -70,8 +96,6 @@ services:
     ports:
       - "${NEWS_SERVICE_PORT}:26"
     depends_on:
-      - rabbitmq
-      - clickhouse
       - postgres
     environment:
       POSTGRES_DB_USER: ${POSTGRES_DB_USER}
@@ -123,3 +147,5 @@ volumes:
   clickhouse_data:
   postgres_data:
   pgadmin_data:
+  nextcloud-db-data:
+  nextcloud-data:

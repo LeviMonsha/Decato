@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS course (
     description TEXT NOT NULL,
     difficulty_level SMALLINT CHECK (difficulty_level BETWEEN 1 AND 10),
     category_id UUID NOT NULL REFERENCES course_category(id),
+    img_url VARCHAR(255),
     sort_order SMALLINT
 );
 

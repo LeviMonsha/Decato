@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { TaskProps } from "../../../../types/task";
 
@@ -6,6 +6,12 @@ const QuizTask = ({ task }: TaskProps) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(null);
+
+  useEffect(() => {
+    setSelectedOptions([]);
+    setSubmitted(false);
+    setIsCorrect(null);
+  }, [task.id]);
 
   const handleOptionChange = (optionId) => {
     setSelectedOptions([optionId]);

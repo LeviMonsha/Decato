@@ -30,6 +30,8 @@ public class CourseDTO {
     private Short difficultyLevel;
 
     private UUID categoryId;
+
+    private String imgUrl;
     
 }
 
