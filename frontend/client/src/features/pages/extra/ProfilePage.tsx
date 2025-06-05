@@ -4,6 +4,13 @@ import { LogOut } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "../../../hooks/redux";
 import { logout, fetchCurrentUser } from "../../../store/slices/authSlice";
 import ChangeCredentialsForm from "./components/ChangeCredentials";
+import apiClient from "../../../hooks/apiClient";
+
+interface CompletedCourse {
+  id: string;
+  courseTitle: string;
+  completedAt: string;
+}
 
 export const ProfilePage = () => {
   const dispatch = useAppDispatch();
@@ -11,12 +18,32 @@ export const ProfilePage = () => {
   const isLoading = useAppSelector((state) => state.auth.isLoading);
 
   const [editMode, setEditMode] = useState(false);
+  const [completedCourses, setCompletedCourses] = useState<CompletedCourse[]>(
+    []
+  );
+  const [loadingCourses, setLoadingCourses] = useState(true);
 
   useEffect(() => {
     if (!user) {
       dispatch(fetchCurrentUser());
     }
   }, [dispatch, user]);
+
+  useEffect(() => {
+    const fetchCompletedCourses = async () => {
+      try {
+        const response = await apiClient.get<CompletedCourse[]>(
+          "/progress/completed-courses"
+        );
+        setCompletedCourses(response.data);
+      } catch (error) {
+        console.error("Ошибка загрузки пройденных курсов:", error);
+      } finally {
+        setLoadingCourses(false);
+      }
+    };
+    fetchCompletedCourses();
+  }, []);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -61,7 +88,7 @@ export const ProfilePage = () => {
           </p>
           <p>
             <span className="font-semibold">Совершеннолетний:</span>{" "}
-            {user.isAdult}
+            {user.isAdult === true ? "Да" : "Нет"}
           </p>
           <p>
             <span className="font-semibold">Пол:</span> {user.gender}
@@ -85,6 +112,43 @@ export const ProfilePage = () => {
         >
           <LogOut className="h-5 w-5 mr-2" /> Выйти
         </button>
+
+        <div className="w-full max-w-3xl mt-10">
+          <h2 className="text-2xl font-semibold mb-4">Пройденные курсы</h2>
+          {loadingCourses ? (
+            <p>Загрузка...</p>
+          ) : completedCourses.length === 0 ? (
+            <p>Вы ещё не прошли ни одного курса.</p>
+          ) : (
+            <table className="w-full border-collapse border border-gray-300 dark:border-gray-600">
+              <thead>
+                <tr className="bg-gray-100 dark:bg-gray-700">
+                  <th className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">
+                    Название курса
+                  </th>
+                  <th className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">
+                    Дата завершения
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {completedCourses.map((course) => (
+                  <tr
+                    key={course.id}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                  >
+                    <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
+                      {course.courseTitle}
+                    </td>
+                    <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
+                      {new Date(course.completedAt).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );

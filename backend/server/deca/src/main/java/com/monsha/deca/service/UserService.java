@@ -42,8 +42,8 @@ public class UserService {
 
         User user = new User();
         user.setEmail(userIn.getEmail());
-        user.setFirstName(userIn.getFirstname());
-        user.setLastName(userIn.getLastname());
+        user.setFirstName(userIn.getFirstName());
+        user.setLastName(userIn.getLastName());
         user.setUsername(userIn.getUsername());
         user.setIsAdult(userIn.getIsAdult());
         user.setGender(userIn.getGender());
@@ -72,8 +72,8 @@ public class UserService {
 
     public User updateUser(UserDTO userDTO, Principal principal) {
         User user = getUserByPrincipal(principal);
-        user.setFirstName(userDTO.getFirstname());
-        user.setLastName(userDTO.getLastname());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
 
         return userRepository.save(user);
     }

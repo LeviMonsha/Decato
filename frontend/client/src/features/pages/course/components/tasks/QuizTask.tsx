@@ -1,51 +1,79 @@
 import { useEffect, useState } from "react";
-
 import { TaskProps } from "../../../../types/task";
+import apiClient from "../../../../../hooks/apiClient";
 
 const QuizTask = ({ task }: TaskProps) => {
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(null);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setSelectedOptions([]);
-    setSubmitted(false);
-    setIsCorrect(null);
+    const loadProgress = async () => {
+      try {
+        const response = await apiClient.get(`/progress/task/${task.id}`);
+        const progress = response.data;
+
+        if (progress) {
+          setSelectedOption(progress.selectedOptionId ?? null);
+          setSubmitted(
+            progress.status === "completed" || progress.status === "in_progress"
+          );
+          setIsCorrect(progress.status === "completed");
+        } else {
+          setSelectedOption(null);
+          setSubmitted(false);
+          setIsCorrect(null);
+        }
+      } catch (error) {
+        console.error("Ошибка загрузки прогресса:", error);
+        setSelectedOption(null);
+        setSubmitted(false);
+        setIsCorrect(null);
+      }
+    };
+
+    loadProgress();
   }, [task.id]);
 
-  const handleOptionChange = (optionId) => {
-    setSelectedOptions([optionId]);
+  const handleOptionChange = (optionId: string) => {
+    if (!submitted) {
+      setSelectedOption(optionId);
+    }
   };
 
-  const handleSubmit = () => {
-    if (selectedOptions.length === 0) {
+  const handleSubmit = async () => {
+    if (!selectedOption) {
       alert("Пожалуйста, выберите вариант ответа");
       return;
     }
 
-    const correctOptions = task.content.options
-      .filter((opt) => opt.is_correct)
-      .map((opt) => opt.id);
+    const correctOption = task.content.options.find((opt) => opt.is_correct);
+    const correct = selectedOption === correctOption?.id;
 
-    const correct =
-      selectedOptions.length === correctOptions.length &&
-      selectedOptions.every((id) => correctOptions.includes(id));
-
-    setIsCorrect(correct);
-    setSubmitted(true);
+    try {
+      await apiClient.put(`/progress/task/${task.id}`, {
+        taskId: task.id,
+        status: correct ? "completed" : "in_progress",
+        selectedOptionId: selectedOption,
+      });
+      setIsCorrect(correct);
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Ошибка сохранения результата:", error);
+    }
   };
 
   return (
     <div>
       <p className="mb-4 font-semibold">{task.content.question}</p>
       <form>
-        {task.content.options.map((option) => (
+        {task.content.options.map((option: any) => (
           <label key={option.id} className="block mb-2 cursor-pointer">
             <input
               type="radio"
               name="quiz-option"
               value={option.id}
-              checked={selectedOptions.includes(option.id)}
+              checked={selectedOption === option.id}
               onChange={() => handleOptionChange(option.id)}
               className="mr-2"
               disabled={submitted}

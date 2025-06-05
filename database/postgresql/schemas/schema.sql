@@ -146,10 +146,10 @@ INSERT INTO task (id, chapter_id, type, content, sort_order) VALUES
   '{
     "question": "Что такое нейронная сеть?",
     "options": [
-      { "id": "opt1", "text": "Модель для обработки изображений", "is_correct": false },
-      { "id": "opt2", "text": "Математическая модель, вдохновлённая биологическими нейронами", "is_correct": true },
-      { "id": "opt3", "text": "Тип базы данных", "is_correct": false },
-      { "id": "opt4", "text": "Язык программирования", "is_correct": false }
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000001", "text": "Модель для обработки изображений", "is_correct": false },
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000002", "text": "Математическая модель, вдохновлённая биологическими нейронами", "is_correct": true },
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000003", "text": "Тип базы данных", "is_correct": false },
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000004", "text": "Язык программирования", "is_correct": false }
     ]
   }'::jsonb,
   9
@@ -162,10 +162,10 @@ INSERT INTO task (id, chapter_id, type, content, sort_order) VALUES
   '{
     "question": "Что такое переобучение (overfitting)?",
     "options": [
-      { "id": "opt1", "text": "Модель плохо обучается", "is_correct": false },
-      { "id": "opt2", "text": "Модель слишком хорошо запомнила обучающие данные и плохо работает на новых", "is_correct": true },
-      { "id": "opt3", "text": "Ошибка в данных", "is_correct": false },
-      { "id": "opt4", "text": "Ошибка в алгоритме", "is_correct": false }
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000005", "text": "Модель плохо обучается", "is_correct": false },
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000006", "text": "Модель слишком хорошо запомнила обучающие данные и плохо работает на новых", "is_correct": true },
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000007", "text": "Ошибка в данных", "is_correct": false },
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000008", "text": "Ошибка в алгоритме", "is_correct": false }
     ]
   }'::jsonb,
   10
@@ -178,10 +178,10 @@ INSERT INTO task (id, chapter_id, type, content, sort_order) VALUES
   '{
     "question": "Что такое обучение с учителем?",
     "options": [
-      { "id": "opt1", "text": "Обучение без заранее известных ответов", "is_correct": false },
-      { "id": "opt2", "text": "Обучение с использованием размеченных данных", "is_correct": true },
-      { "id": "opt3", "text": "Обучение с помощью нейронных сетей", "is_correct": false },
-      { "id": "opt4", "text": "Обучение без использования данных", "is_correct": false }
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000009", "text": "Обучение без заранее известных ответов", "is_correct": false },
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000010", "text": "Обучение с использованием размеченных данных", "is_correct": true },
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000011", "text": "Обучение с помощью нейронных сетей", "is_correct": false },
+      { "id": "e1f2a3b4-5678-4abc-8def-000000000012", "text": "Обучение без использования данных", "is_correct": false }
     ]
   }'::jsonb,
   11

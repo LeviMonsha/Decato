@@ -26,7 +26,9 @@ export function MenuBarComponent({
           <img
             src={
               user?.avatar ||
-              "https://api.dicebear.com/7.x/avataaars/svg?seed=default"
+              `https://api.dicebear.com/7.x/avataaars/svg?seed=${
+                user?.username || "default"
+              }}`
             }
             alt={user?.username || "User"}
             className="h-8 w-8 rounded-full"

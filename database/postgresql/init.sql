@@ -42,6 +42,16 @@ CREATE TABLE IF NOT EXISTS course (
     sort_order SMALLINT
 );
 
+-- хранение записей на курс
+CREATE TABLE IF NOT EXISTS course_enrollment (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    trainee_id UUID NOT NULL REFERENCES trainee(id) ON DELETE CASCADE,
+    course_id UUID NOT NULL REFERENCES course(id) ON DELETE CASCADE,
+    enrolled_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (trainee_id, course_id)
+);
+
+
 -- хранение информации о главе курса
 CREATE TABLE IF NOT EXISTS chapter (
     id UUID PRIMARY KEY,
@@ -77,7 +87,9 @@ CREATE TABLE IF NOT EXISTS trainee_progress (
     trainee_id UUID NOT NULL REFERENCES trainee(id),
     task_id UUID NOT NULL REFERENCES task(id),
     status VARCHAR(20) CHECK (status IN ('not_started', 'in_progress', 'completed')),
-    completed_at TIMESTAMPTZ
+    completed_at TIMESTAMPTZ,
+    selected_option_id UUID,
+    CONSTRAINT fk_selected_option FOREIGN KEY (selected_option_id) REFERENCES task_option(id)
 );
 
 -- хранение информации о комментарии курса
@@ -160,7 +172,6 @@ CREATE TABLE IF NOT EXISTS competition_rating (
 ALTER TABLE submission ADD CONSTRAINT fk_task 
   FOREIGN KEY (task_id) REFERENCES task(id) ON DELETE CASCADE;
 
--- Индексы для быстрого доступа
 CREATE UNIQUE INDEX idx_trainee_progress ON trainee_progress(trainee_id, task_id);
 CREATE UNIQUE INDEX idx_competition_rating ON competition_rating(competition_id, trainee_id);
 CREATE INDEX idx_comments_course ON course_comment(course_id);
@@ -172,3 +183,20 @@ CREATE INDEX idx_task_chapter ON task(chapter_id);
 CREATE INDEX idx_task_option_task ON task_option(task_id);
 CREATE INDEX idx_trainee_progress_trainee ON trainee_progress(trainee_id);
 CREATE INDEX idx_trainee_progress_task ON trainee_progress(task_id);
+
+CREATE OR REPLACE FUNCTION create_initial_progress()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO trainee_progress (trainee_id, task_id, status)
+  SELECT NEW.trainee_id, t.id, 'not_started'
+  FROM task t
+  JOIN chapter c ON t.chapter_id = c.id
+  WHERE c.course_id = NEW.course_id;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER on_course_enroll
+AFTER INSERT ON course_enrollment
+FOR EACH ROW EXECUTE FUNCTION create_initial_progress();

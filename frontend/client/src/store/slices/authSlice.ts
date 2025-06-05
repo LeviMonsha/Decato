@@ -5,6 +5,10 @@ type User = {
   id: string;
   username: string;
   email: string;
+  firstName: string;
+  lastName: string;
+  isAdult: boolean;
+  gender: string;
   avatar?: string;
 };
 

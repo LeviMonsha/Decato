@@ -107,7 +107,7 @@ export const CourseDetailPage = () => {
               onClick={handleStartOrContinue}
               className="mt-8 inline-flex items-center justify-center rounded-md border border-transparent bg-primary-400 px-6 py-3 text-base font-medium text-black shadow-sm hover:bg-primary-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition"
             >
-              {course.started ? "Продолжить курс" : "Начать курс"}
+              Открыть курс
             </button>
           </div>
         </div>

@@ -9,9 +9,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserResponseDTO {
 
-    private String firstname;
+    private String firstName;
 
-    private String lastname;
+    private String lastName;
 
     private String username;
 

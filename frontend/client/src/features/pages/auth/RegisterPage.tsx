@@ -7,8 +7,8 @@ import apiClient from "../../../hooks/apiClient";
 
 export const RegisterPage = () => {
   const [registerForm, setRegisterForm] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     username: "",
     email: "",
     password: "",
@@ -61,8 +61,8 @@ export const RegisterPage = () => {
     setLoading(true);
     try {
       const userData = {
-        firstname: registerForm.firstname,
-        lastname: registerForm.lastname,
+        firstName: registerForm.firstName,
+        lastName: registerForm.lastName,
         username: registerForm.username,
         email: registerForm.email,
         password: registerForm.password,
@@ -112,9 +112,9 @@ export const RegisterPage = () => {
         <Form.Control asChild>
           <input
             type="text"
-            name="firstname"
+            name="firstName"
             placeholder="Ivan"
-            value={registerForm.firstname}
+            value={registerForm.firstName}
             onChange={handleChange}
             autoComplete="off"
             required
@@ -130,9 +130,9 @@ export const RegisterPage = () => {
         <Form.Control asChild>
           <input
             type="text"
-            name="lastname"
+            name="lastName"
             placeholder="Ivanov"
-            value={registerForm.lastname}
+            value={registerForm.lastName}
             onChange={handleChange}
             autoComplete="off"
             required

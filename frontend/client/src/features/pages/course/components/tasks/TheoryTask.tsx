@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TaskProps } from "../../../../types/task";
 import { TheoryContent } from "../../../../interfaces/content";
+import apiClient from "../../../../../hooks/apiClient";
 
 const TheoryTask = ({ task }: TaskProps) => {
   const content = task.content as TheoryContent;
+
+  useEffect(() => {
+    const markAsCompleted = async () => {
+      try {
+        await apiClient.put(`/progress/task/${task.id}`, {
+          taskId: task.id,
+          status: "completed",
+        });
+      } catch (error) {
+        console.error("Ошибка обновления прогресса:", error);
+      }
+    };
+
+    markAsCompleted();
+  }, [task.id]);
 
   return (
     <div className="theory-task p-4">

@@ -20,10 +20,10 @@ public class SignupRequest {
     private String email;
 
     @NotEmpty(message = "Please enter your name")
-    private String firstname;
+    private String firstName;
 
-    @NotEmpty(message = "Please enter your lastname")
-    private String lastname;
+    @NotEmpty(message = "Please enter your lastName")
+    private String lastName;
 
     @NotEmpty(message = "Please enter your username")
     private String username;
