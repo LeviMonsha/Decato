@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 import apiClient from "../../../hooks/apiClient";
 import { Task } from "../../types/task";
@@ -78,6 +79,12 @@ export const CourseTasksPage = () => {
         </div>
       )}
 
+      <Link
+        to={`/courses/${courseId}`}
+        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+      >
+        <ArrowLeft className="h-6 w-6" />
+      </Link>
       <nav className="flex space-x-2 mb-6 justify-center">
         {tasks.map((task, index) => (
           <button

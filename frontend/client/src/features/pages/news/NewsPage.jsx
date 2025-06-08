@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
+
 import { NewsCardComponent } from "./components/NewsCardComponent";
+import { ArrowLeft } from "lucide-react";
 
 export const NewsPage = () => {
   const [news, setNews] = useState([]);
@@ -41,6 +44,12 @@ export const NewsPage = () => {
 
   return (
     <div className="text-center py-12 max-w-3xl mx-auto">
+      <Link
+        to={`/`}
+        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+      >
+        <ArrowLeft className="h-6 w-6" />
+      </Link>
       <h1 className="text-3xl font-bold mb-6">Новости</h1>
 
       {error && <div className="mb-6 text-red-600">{error}</div>}
